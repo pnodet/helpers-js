@@ -1,6 +1,6 @@
 {
   "name": "pnxdxt-helpers-js",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Small functions help my js life",
   "scripts": {
     "test": ""
