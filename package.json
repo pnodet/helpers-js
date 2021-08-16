@@ -1,13 +1,13 @@
 {
-  "name": "small-package-template",
-  "version": "1.0.0",
-  "description": "Small template to quickly create npm packages",
+  "name": "pnxdxt-helpers-js",
+  "version": "1.0.1",
+  "description": "Small functions help my js life",
   "scripts": {
     "test": ""
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pnxdxt/package-template.git"
+    "url": "git+https://github.com/pnxdxt/helpers-js.git"
   },
   "type": "module",
   "exports": "./index.js",
@@ -25,9 +25,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pnxdxt/package-template/issues"
+    "url": "https://github.com/pnxdxt/helpers-js/issues"
   },
-  "homepage": "https://github.com/pnxdxt/package-template#readme",
+  "homepage": "https://github.com/pnxdxt/helpers-js#readme",
   "devDependencies": {
     "tsd": "^0.17.0"
   }
