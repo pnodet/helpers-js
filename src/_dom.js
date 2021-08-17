@@ -1,8 +1,67 @@
 /**
- * @param {Node} el the element
+ * @param {Element} el
+ * @returns {boolean} is Web Component ?
  */
 export const isWebComponent = (el) =>
   el && el.shadowRoot && el.tagName.includes("-");
+
+/**
+ * @param {Element} el
+ * @param {Element} target
+ * @returns {Void} insertBefore
+ */
+export function insertBefore(el, target) {
+  target.parentElement.insertBefore(el, target);
+}
+
+/**
+ * @param {Element} el
+ * @param {Element} target
+ * @returns {Void} insertAfter
+ */
+export function insertAfter(el, target) {
+  target.parentElement.insertBefore(el, target.nextSibling);
+}
+
+/**
+ * @param {Element} el
+ * @param {Element} target
+ * @returns {Void} prependTo
+ */
+export function prependTo(el, target) {
+  target.insertBefore(el, target.firstChild);
+}
+
+/**
+ * @param {Element} el
+ * @param {Element} target
+ * @returns {Void} appendTo
+ */
+export function appendTo(el, target) {
+  target.appendChild(el);
+}
+
+/** Select next child */
+export const nextChild = (pathItem, root) => {
+  const isShadowRoot = pathItem === "shadowRoot" || pathItem === "shadow-root";
+  return isShadowRoot ? root.shadowRoot : root.querySelector(pathItem);
+};
+
+/** Get parent by Id */
+export const getParentById = (node, id) => {
+  while (node) {
+    if (node.id === id) return node;
+    node = node.parentNode;
+  }
+};
+
+/** Get parent by data */
+export const getParentByData = (node, key, value) => {
+  while (node) {
+    if (node.dataset[key] === value) return node;
+    node = node.parentNode;
+  }
+};
 
 /** Select all elements matching given selector */
 export const allElements = (selector, root = document) => {
@@ -42,27 +101,74 @@ export const getIndex = (node, nodeList) => {
   return -1;
 };
 
-/** Select next child */
-export const nextChild = (pathItem, root) => {
-  const isShadowRoot = pathItem === "shadowRoot" || pathItem === "shadow-root";
-  return isShadowRoot ? root.shadowRoot : root.querySelector(pathItem);
-};
-
-/** Get parent by Id */
-export const getParentById = (node, id) => {
-  while (node) {
-    if (node.id === id) return node;
-    node = node.parentNode;
+/**
+ * @param {HTMLElement | Window | Document} el
+ * @param {String} name
+ * @param {EventHandler} handler
+ * @param {...*} args
+ * @returns {Void}
+ */
+export function onDOM(el, name, handler, ...args) {
+  if (el.addEventListener) {
+    el.addEventListener(name, handler, ...args);
+  } else if (el.attachEvent) {
+    el.attachEvent(`on${name}`, handler, ...args);
   }
-};
+}
 
-/** Get parent by data */
-export const getParentByData = (node, key, value) => {
-  while (node) {
-    if (node.dataset[key] === value) return node;
-    node = node.parentNode;
+/**
+ * @param {HTMLElement | Window | Document} el
+ * @param {String} name
+ * @param {EventHandler} handler
+ * @param {...*} args
+ * @returns {Void}
+ */
+export function offDOM(el, name, handler, ...args) {
+  if (el.removeEventListener) {
+    el.removeEventListener(name, handler, ...args);
+  } else if (el.detachEvent) {
+    el.detachEvent(`on${name}`, handler, ...args);
   }
-};
+}
+
+/**
+ * @param {...HTMLElement | Window | Document} els
+ * @param {...String} names
+ * @param {EventHandler} handler
+ * @param {...*} args
+ * @returns {Void}
+ */
+export function onDOMMany(els, names, handler, ...args) {
+  for (const el of els) {
+    for (const name of names) {
+      onDOM(el, name, handler, ...args);
+    }
+  }
+  const destroy = () => {
+    for (const el of els) {
+      for (const name of names) {
+        offDOM(el, name, handler);
+      }
+    }
+  };
+  return destroy;
+}
+
+/**
+ * @param {String} url
+ */
+export function getImageSizeByUrl(url) {
+  const image = document.createElement("img");
+  return new Promise(function (resolve, reject) {
+    onDOM(image, "load", () => {
+      resolve({ width: image.width, height: image.height });
+    });
+    onDOM(image, "error", (e) => {
+      reject(e);
+    });
+    image.src = url;
+  });
+}
 
 /**
  * Get attributes of an element as an object with key/value
