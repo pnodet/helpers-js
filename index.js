@@ -11,5 +11,6 @@ export { default as _Is } from "./src/_is.js";
 export { default as _LazyLoad } from "./src/_lazyload.js";
 export * as _Number from "./src/_number.js";
 export * as _Object from "./src/_object.js";
+export * as _Promise from "./src/_promise.js";
 export * as _String from "./src/_string.js";
 export * as _Url from "./src/_url.js";
