@@ -6,6 +6,11 @@ export const isWebComponent = (el) =>
   el && el.shadowRoot && el.tagName.includes("-");
 
 /**
+ * What is user's navigator language ?
+ */
+export const getUserLanguage = () => navigator.language || navigator.userLanguage;
+
+/**
  * @param {Element} el
  * @param {Element} target
  * @returns {Void} insertBefore
