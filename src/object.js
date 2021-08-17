@@ -3,7 +3,7 @@
  * @param {Array | {}} object to traverse its members
  * @param {function} func The function
  */
-const forEachEntry = (object, func) => {
+export const forEachEntry = (object, func) => {
   if (!object || !func) return;
 
   if (Array.isArray(object)) {
@@ -15,5 +15,3 @@ const forEachEntry = (object, func) => {
 
   Object.entries(object).forEach((p) => func(p[0], p[1]));
 };
-
-export default forEachEntry;

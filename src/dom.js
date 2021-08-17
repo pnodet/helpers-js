@@ -60,23 +60,6 @@ export const createElement = (name, attributes = {}, content = '') => {
   return elements[0]
 }
 
-/**
- * @param {Array | {}} object to traverse its members
- * @param {function} func The function will be called with (key, value) as aruments
- */
-export const forEachEntry = (object, func) => {
-  if (!object || !func) return
-
-  if (Array.isArray(object)) {
-    object.forEach((v, index) => {
-      func(index, v)
-    })
-    return
-  }
-
-  Object.entries(object).forEach(p => func(p[0], p[1]))
-}
-
 export const attsToString = (attributes) => {
   const array = []
   forEachEntry(attributes, (k, v) => {
@@ -185,9 +168,8 @@ export const serialize = (data) => {
 };
 
 const isType = (v, type) => Object.prototype.toString.call(v) === `[object ${type}]`;
-
 /** Check if given argument is of String type */
-export const isString = (s) => isType(s, 'String')
+const isString = (s) => isType(s, 'String')
 
 const LOCATIONS = new Set([
   "beforebegin",

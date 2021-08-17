@@ -4,7 +4,7 @@
  * @param {any} val - value
  * @return {Number} Number of occurrences
  */
-const countOccurrences = (arr, val) =>
+export const countOccurrences = (arr, val) =>
   arr.reduce((a, v) => (v === val ? a + 1 : a), 0);
 
 /**
@@ -12,58 +12,59 @@ const countOccurrences = (arr, val) =>
  * @param  {Array} arr - The array
  * @return {Array}     A new array without false values
  */
-const compact = arr => arr.filter(Boolean);
+export const compact = (arr) => arr.filter(Boolean);
 
 /**
  * Converts a non-array value into array
  * @param {*} val
  * @return {Array}
  */
-const castArray = val => (Array.isArray(val) ? val : [val]);
+export const castArray = (val) => (Array.isArray(val) ? val : [val]);
 
 /**
  * Converts the elements that don’t have commas or double quotes to strings with comma-separated values
  * @param {Array} arr
  * @param {String} [delimiter=',']
  */
-const arrayToCSV = (arr, delimiter = ',') =>
-  arr.map(v => v.map(x => `"${x}"`).join(delimiter)).join('\n');
+export const arrayToCSV = (arr, delimiter = ",") =>
+  arr.map((v) => v.map((x) => `"${x}"`).join(delimiter)).join("\n");
 
 /**
  * Returns true if the predicate function returns true for all elements in a collection and false otherwise
  * @param {Array} arr
  * @param {Function} fn
  */
-const all = (arr, fn) => arr.every(fn);
+export const all = (arr, fn) => arr.every(fn);
 
 /**
  * Checks whether all elements of the array are equal
  * @param {Array} arr
  * @return {Boolean}
  */
-const allEqual = arr => arr.every(val => val === arr[0]);
+export const allEqual = (arr) => arr.every((val) => val === arr[0]);
 
 /**
  * Return an array of elements that appear in two arrays
  * @param {Array} arr
  * @param {Array} values
  */
-const similarity = (arr, values) => arr.filter(v => values.includes(v));
+export const similarity = (arr, values) =>
+  arr.filter((v) => values.includes(v));
 
 /**
  * Returns the average of two or more numerical values
  * @param {...number} nums
  */
-const average = (...nums) =>
+export const average = (...nums) =>
   nums.reduce((acc, val) => acc + val, 0) / nums.length;
 
 /**
  * Flattens an array up to a specified depth using recursion
  * @param {Array} arr - The array
- * @param {Number} [depth=1] 
+ * @param {Number} [depth=1]
  * @return {Array}     A new array with duplicates removed
  */
-const flatten = (arr, depth = 1) =>
+export const flatten = (arr, depth = 1) =>
   arr.reduce((a, v) =>
     a.concat(depth > 1 && Array.isArray(v) ? flatten(v, depth - 1) : v), []);
 
@@ -72,24 +73,24 @@ const flatten = (arr, depth = 1) =>
  * @param  {Array} arr - The array
  * @return {Array}     A new array
  */
-const deepFlatten = (arr) =>
+export const deepFlatten = (arr) =>
   [].concat(...arr.map((v) => (Array.isArray(v) ? deepFlatten(v) : v)));
 
 /**
  * Sort array by a category
  * @param {Array} arr - The array
  * @param {Any} p - parameter
- * @return {Array} 
+ * @return {Array}
  */
-const sortBy = (arr, p) =>
-  arr.slice(0).sort((a, b) => a[p] > b[p] ? 1 : a[p] < b[p] ? -1 : 0);
+export const sortBy = (arr, p) =>
+  arr.slice(0).sort((a, b) => (a[p] > b[p] ? 1 : a[p] < b[p] ? -1 : 0));
 
 /**
  * Remove duplicate items from an array
  * @param  {Array} arr - The array
  * @return {Array}     A new array with duplicates removed
  */
-const unDuplicate = (arr) => Array.from(new Set(arr));
+export const unDuplicate = (arr) => Array.from(new Set(arr));
 
 /**
  * Split an array into chunks.
@@ -97,7 +98,7 @@ const unDuplicate = (arr) => Array.from(new Set(arr));
  * @param {Number} [limit=1]
  * @return {*[]}
  */
-const array_chunk = (arr, limit = 1) => {
+export const array_chunk = (arr, limit = 1) => {
   if (limit < 1) {
     throw new Error("Limit value should be greater than 1");
   }
@@ -115,7 +116,7 @@ const array_chunk = (arr, limit = 1) => {
  * @param fn
  * @return {unknown[]}
  */
-const array_group = (arr, fn) => Object.values(array_group_map(arr, fn));
+export const array_group = (arr, fn) => Object.values(array_group_map(arr, fn));
 
 /**
  * Group items by common key and return an object of items grouped by key.
@@ -123,7 +124,7 @@ const array_group = (arr, fn) => Object.values(array_group_map(arr, fn));
  * @param fn
  * @return {{}}
  */
-const array_group_map = (arr, fn) => {
+export const array_group_map = (arr, fn) => {
   const out = {};
   arr.forEach(function (item) {
     const key = fn(item);
@@ -139,7 +140,7 @@ const array_group_map = (arr, fn) => {
  * @param  {Array} array - The array to shuffle
  * @return {Array}      The shuffled array
  */
-const shuffle = (array) => {
+export const shuffle = (array) => {
   let currentIndex = array.length;
   let temporaryValue, randomIndex;
 
@@ -156,23 +157,4 @@ const shuffle = (array) => {
   }
 
   return array;
-}
-
-export {
-  countOccurrences,
-  compact,
-  castArray,
-  arrayToCSV,
-  all,
-  allEqual,
-  similarity,
-  average,
-  flatten,
-  deepFlatten,
-  sortBy,
-  unDuplicate,
-  array_chunk,
-  array_group,
-  array_group_map,
-  shuffle,
 };
