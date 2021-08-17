@@ -7,7 +7,7 @@
  * @returns {number} Returns the timer id.
  * @example
  *
- * delay(text => console.log(text), 1000, 'later')
+ * _Func.delay(text => console.log(text), 1000, 'later')
  * // => Logs 'later' after one second.
  */
 export function delay(func, wait, ...args) {
@@ -16,6 +16,39 @@ export function delay(func, wait, ...args) {
   }
   return setTimeout(func, +wait || 0, ...args);
 }
+
+/**
+ * Returns a function that will only run N milliseconds after it stops being called.
+ * Or optionally will only run once during multiple calls,
+ * and won't run again until N milliseconds after the last call.
+ * @link https://code.area17.com/a17/a17-helpers/wikis/debounce
+ *
+ * @example
+ * clicked = _Func.debounce(function() {
+ *   // function to run on first click,
+ *   // but won't run again until clicking has stopped for 1000ms
+ * }, 1000, true);
+ * document.addEventListener('click', clicked);
+ */
+export const debounce = (func, wait, immediate) => {
+  let timeout;
+  return function () {
+    const context = this;
+    const args = arguments;
+    const later = function () {
+      timeout = null;
+      if (!immediate) {
+        func.apply(context, args);
+      }
+    };
+    const callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+    if (callNow) {
+      func.apply(context, args);
+    }
+  };
+};
 
 /**
  * Creates a function that negates the result of the predicate `func`. The
@@ -29,7 +62,7 @@ export function delay(func, wait, ...args) {
  *   return n % 2 == 0
  * }
  *
- * filter([1, 2, 3, 4, 5, 6], negate(isEven))
+ * filter([1, 2, 3, 4, 5, 6], _Func.negate(isEven))
  * // => [1, 3, 5]
  */
 export function negate(predicate) {
@@ -57,7 +90,7 @@ export function negate(predicate) {
  *   return n * n
  * }
  *
- * const func = overArgs((x, y) => [x, y], [square, doubled])
+ * const func = _Func.overArgs((x, y) => [x, y], [square, doubled])
  *
  * func(9, 3)
  * // => [81, 6]
@@ -91,13 +124,13 @@ const MAX_ARRAY_LENGTH = 4294967295;
  * @returns {Array} Returns the array of results.
  * @example
  *
- * times(3, String)
+ * _Func.times(3, String)
  * // => ['0', '1', '2']
  *
- *  times(4, () => 0)
+ *  _Func.times(4, () => 0)
  * // => [0, 0, 0, 0]
  */
-export function times(n, iteratee) {
+export const times = (n, iteratee) => {
   if (n < 1 || n > MAX_SAFE_INTEGER) {
     return [];
   }
@@ -113,4 +146,4 @@ export function times(n, iteratee) {
     iteratee(index);
   }
   return result;
-}
+};

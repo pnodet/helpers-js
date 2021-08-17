@@ -36,13 +36,13 @@ export const indexOf = (st, search, fromIndex = 0, ignoreCase = false) => {
  *  else `false`.
  * @example
  *
- * startsWith('abc', 'a')
+ * _String.startsWith('abc', 'a')
  * // => true
  *
- * startsWith('abc', 'b')
+ * _String.startsWith('abc', 'b')
  * // => false
  *
- * startsWith('abc', 'b', 1)
+ * _String.startsWith('abc', 'b', 1)
  * // => true
  */
 export function startsWith(string, target, position) {
@@ -66,13 +66,13 @@ export function startsWith(string, target, position) {
  *  else `false`.
  * @example
  *
- * endsWith('abc', 'c')
+ * _String.endsWith('abc', 'c')
  * // => true
  *
- * endsWith('abc', 'b')
+ * _String.endsWith('abc', 'b')
  * // => false
  *
- * endsWith('abc', 'b', 2)
+ * _String.endsWith('abc', 'b', 2)
  * // => true
  */
 export function endsWith(string, target, position) {
@@ -95,13 +95,13 @@ export function endsWith(string, target, position) {
  * @returns {string} Returns the repeated string.
  * @example
  *
- * repeat('*', 3)
+ * _String.repeat('*', 3)
  * // => '***'
  *
- * repeat('abc', 2)
+ * _String.repeat('abc', 2)
  * // => 'abcabc'
  *
- * repeat('abc', 0)
+ * _String.repeat('abc', 0)
  * // => ''
  */
 export function repeat(string, n) {
@@ -134,7 +134,7 @@ export function repeat(string, n) {
  * @returns {string} Returns the modified string.
  * @example
  *
- * replace('Hi Fred', 'Fred', 'Barney')
+ * _String.replace('Hi Fred', 'Fred', 'Barney')
  * // => 'Hi Barney'
  */
 export function replace(...args) {

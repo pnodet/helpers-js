@@ -1,6 +1,5 @@
 /** Used to check objects for own properties. */
 const hasOwnProperty = Object.prototype.hasOwnProperty;
-
 const toString = Object.prototype.toString;
 
 /**
@@ -35,7 +34,7 @@ export const forEachEntry = (object, func) => {
  *
  * Foo.prototype.c = () => 'c'
  *
- * functions(new Foo)
+ * _Object.functions(new Foo)
  * // => ['a', 'b']
  */
 export function functions(object) {
@@ -55,10 +54,10 @@ export function functions(object) {
  * const object = { 'a': { 'b': 2 } }
  * const other = create({ 'a': create({ 'b': 2 }) })
  *
- * has(object, 'a')
+ * _Object.has(object, 'a')
  * // => true
  *
- * has(other, 'a')
+ * _Object.has(other, 'a')
  * // => false
  */
 export const has = (object, key) =>
@@ -74,7 +73,7 @@ export const has = (object, key) =>
  *
  * const object = { 'a': 1, 'b': 2, 'c': 1 }
  *
- * invert(object)
+ * _Object.invert(object)
  * // => { '1': 'c', '2': 'b' }
  */
 export function invert(object) {
@@ -102,7 +101,7 @@ export function invert(object) {
  *
  * const object = { 'a': 1, 'b': 2, 'c': 1 }
  *
- * invertBy(object, value => `group${value}`)
+ * _Object.invertBy(object, value => `group${value}`)
  * // => { 'group1': ['a', 'c'], 'group2': ['b'] }
  */
 export function invertBy(object, iteratee) {
@@ -132,7 +131,7 @@ export function invertBy(object, iteratee) {
  *
  * Foo.prototype.c = 3;
  *
- * _.keysIn(new Foo);
+ * _Object..keysIn(new Foo);
  * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
  */
 export function keysIn(object) {
@@ -158,7 +157,7 @@ export function keysIn(object) {
  *   'pebbles': { 'user': 'pebbles', 'age': 1 }
  * }
  *
- * mapValue(users, ({ age }) => age)
+ * _Object.mapValue(users, ({ age }) => age)
  * // => { 'fred': 40, 'pebbles': 1 } (iteration order is not guaranteed)
  */
 export function mapValue(object, iteratee) {
@@ -181,7 +180,7 @@ export function mapValue(object, iteratee) {
  * @returns {Object} Returns the new mapped object.
  * @example
  *
- * mapKey({ 'a': 1, 'b': 2 }, function(value, key) {
+ * _Object.mapKey({ 'a': 1, 'b': 2 }, function(value, key) {
  *   return key + value
  * })
  * // => { 'a1': 1, 'b2': 2 }
@@ -209,10 +208,10 @@ export function mapKey(object, iteratee) {
  *   return n * n
  * }
  *
- * map({ 'a': 4, 'b': 8 }, square)
+ * _Object.mapObj({ 'a': 4, 'b': 8 }, square)
  * // => [16, 64] (iteration order is not guaranteed)
  */
-export function mapObject(object, iteratee) {
+export function mapObj(object, iteratee) {
   const props = Object.keys(object);
   const result = new Array(props.length);
 
@@ -238,7 +237,7 @@ export function mapObject(object, iteratee) {
  * assign({ 'a': 1 }, new Foo)
  * // => { 'a': 1, 'b': 2 }
  *
- * assign({ 'a': 1 }, toPlainObject(new Foo))
+ * assign({ 'a': 1 }, _Object.toPlainObject(new Foo))
  * // => { 'a': 1, 'b': 2, 'c': 3 }
  */
 export function toPlainObject(value) {

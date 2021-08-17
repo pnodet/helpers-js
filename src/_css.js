@@ -41,3 +41,21 @@ export const removeClass = (NodeList, className) => {
     el.classList.remove(className);
   });
 };
+
+/**
+ * Returns the current media query in use by looking at the font-family of the head of the document
+ * and text in pseudo content on the body. Useful for running JS functions at certain breakpoints
+ * without holding breakpoint size information in CSS and JS.
+ * @link https://code.area17.com/a17/a17-helpers/wikis/getCurrentMediaQuery
+ */
+export const getCurrentMediaQuery = () =>
+  getComputedStyle(document.documentElement)
+    .getPropertyValue("--breakpoint")
+    .trim();
+
+/**
+ * Returns a metatag content by name
+ * @link https://code.area17.com/a17/a17-helpers/wikis/getMetaContentByName
+ */
+export const getMetaContentByName = (name) =>
+  document.querySelector("meta[name='" + name + "']").getAttribute("content");

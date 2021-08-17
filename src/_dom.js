@@ -20,6 +20,28 @@ export const id = (elementId, root = document) => {
   return root.getElementById(elementId);
 };
 
+/**
+ * Returns the index of a node in a nodeList.
+ * @link https://code.area17.com/a17/a17-helpers/wikis/getIndex
+ * @param {Node} node
+ * @param {NodeList} nodeList
+ */
+export const getIndex = (node, nodeList) => {
+  const nodesLength = nodes.length;
+  let nodes = nodeList || node.parentNode.childNodes;
+  let n = 0;
+
+  for (let i = 0; i < nodesLength; i++) {
+    if (nodes[i] === node) {
+      return n;
+    }
+    if (nodes[i].nodeType === 1) {
+      n++;
+    }
+  }
+  return -1;
+};
+
 /** Select next child */
 export const nextChild = (pathItem, root) => {
   const isShadowRoot = pathItem === "shadowRoot" || pathItem === "shadow-root";
@@ -164,6 +186,101 @@ export const getQueryString = (param, url = window.location) => {
 };
 
 /**
+ * Takes the passed URL, or the current browser URL and returns an object of query string parameters.
+ * [URLSearchParams doesn't work](https://caniuse.com/#search=URLSearchParams)
+ * @link https://code.area17.com/a17/a17-helpers/wikis/queryStringHandler-toObject
+ * @param  {String} url   The URL to get the value from [optional]
+ * @return {{}}   An object returned with the url params
+ *
+ * @example
+ *
+ * let params = _Dom.queryToObject(url);
+ * //=> { param1: 'param1value', param2: 'param2value' }
+ */
+export const queryToObject = (url) => {
+  if (typeof url !== "string") {
+    return {};
+  }
+
+  let qsObj = {};
+  let search =
+    url && url.indexOf("?") > -1 ? url.split("?")[1] : location.search;
+  search.replace(
+    new RegExp("([^?=&]+)(=([^&]*))?", "g"),
+    function ($0, $1, $2, $3) {
+      qsObj[$1] = $3;
+    }
+  );
+  return qsObj;
+};
+
+/**
+ * Get the value of a query string from a URL
+ * @link https://code.area17.com/a17/a17-helpers/wikis/queryStringHandler-fromObject
+ * @param  {{}} obj  The object to get the parameters from
+ * @returns {String}  An url returned with the param from the object
+ *
+ * @example
+ *
+ * let query = _Dom.queryFromObject({
+ *   param1: 'param1value',
+ *   param2: 'param2value'
+ * });
+ * //=> returns: ?param1=param1value&param2=param2value
+ */
+export const queryFromObject = (obj) => {
+  var queryString = "";
+  var count = 0;
+
+  if (Object.getOwnPropertyNames(obj).length > 0) {
+    queryString = "?";
+    for (var key in obj) {
+      if (!obj.hasOwnProperty(key)) {
+        continue;
+      }
+      queryString +=
+        (count > 0 ? "&" : "") +
+        key +
+        "=" +
+        encodeURIComponent(obj[key]).replace(/[!'()*]/g, function (c) {
+          return "%" + c.charCodeAt(0).toString(16);
+        });
+      count++;
+    }
+  }
+  return queryString;
+};
+
+/**
+ * Updates a specified key's value in a query string.
+ * @link https://code.area17.com/a17/a17-helpers/wikis/queryStringHandler-updateParameter
+ * @param  {String} url   URL to update
+ * @param  {String} key   key to update, if the key doesn't exist, it gets added
+ * @param  {String} value value to update, can handle ''
+ * @returns {String}  new URL string with updated parameter
+ *
+ * @example
+ *
+ * let url = 'https://example.com?foo=bar&baz=qux'
+ * newURL = _Dom.queryupdateParameter(initialURL, 'baz', 'foo');
+ * //=> returns 'https://example.com?foo=bar&baz=foo'
+ */
+export const queryupdateParameter = (url, key, value) => {
+  var re = new RegExp("([?&])" + key + "=.*?(&|#|$)", "i");
+  if (url.match(re)) {
+    return url.replace(re, "$1" + key + "=" + value + "$2");
+  } else {
+    var hash = "";
+    if (url.indexOf("#") !== -1) {
+      hash = url.replace(/.*#/, "#");
+      url = url.replace(/#.*/, "");
+    }
+    var separator = url.indexOf("?") !== -1 ? "&" : "?";
+    return url + separator + key + "=" + value + hash;
+  }
+};
+
+/**
  * Serialize all form data into an object
  * (c) 2021 Chris Ferdinandi, MIT License, https://gomakethings.com
  * @param  {FormData} data The FormData object to serialize
@@ -179,6 +296,52 @@ export const serialize = (data) => {
       obj[key].push(value);
     } else {
       obj[key] = value;
+    }
+  }
+  return obj;
+};
+
+/**
+ * Generates a JS Object out of a form.
+ * @link https://code.area17.com/a17/a17-helpers/wikis/objectifyForm
+ * @param  {Node} form  A form node
+ * @return {String}     The serialized form data
+ *
+ * @example
+ *
+ * const form = document.getElementsById('form');
+ * const form_data = objectifyForm(form);
+ * //=> Object {name: 'Mike', description: 'Interface Engineer', role: 'FE', staff: 'staff'}
+ */
+export const objectifyForm = (form) => {
+  let field;
+  let obj = {};
+
+  if (typeof form === "object" && form.nodeName === "FORM") {
+    let len = form.elements.length;
+    for (let i = 0; i < len; i++) {
+      field = form.elements[i];
+      if (
+        field.name &&
+        !field.disabled &&
+        field.type !== "file" &&
+        field.type !== "reset" &&
+        field.type !== "submit" &&
+        field.type !== "button"
+      ) {
+        if (field.type === "select-multiple") {
+          for (let j = form.elements[i].options.length - 1; j >= 0; j--) {
+            if (field.options[j].selected) {
+              obj[field.name] = field.options[j].value;
+            }
+          }
+        } else if (
+          (field.type !== "checkbox" && field.type !== "radio") ||
+          field.checked
+        ) {
+          obj[field.name] = field.value;
+        }
+      }
     }
   }
   return obj;
@@ -247,7 +410,6 @@ export function setCaretPosition(el, start, end) {
 
 /**
  * Encode favicon
- */
 //FIXME: const document = require("global/document");
 const docHead = document.getElementsByTagName("head")[0];
 const favicon = (mime, base64data) => {
@@ -262,3 +424,4 @@ favicon.ico = (base64data) => favicon("x-icon", base64data);
 favicon.png = (base64data) => favicon("png", base64data);
 
 export { favicon };
+*/

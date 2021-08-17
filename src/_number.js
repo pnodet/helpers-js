@@ -40,16 +40,16 @@ const MAX_INTEGER = 1.7976931348623157e308;
  * @returns {number} Returns the converted number.
  * @example
  *
- * toFinite(3.2)
+ * _Number.toFinite(3.2)
  * // => 3.2
  *
- * toFinite(Number.MIN_VALUE)
+ * _Number.toFinite(Number.MIN_VALUE)
  * // => 5e-324
  *
- * toFinite(Infinity)
+ * _Number.toFinite(Infinity)
  * // => 1.7976931348623157e+308
  *
- * toFinite('3.2')
+ * _Number.toFinite('3.2')
  * // => 3.2
  */
 export function toFinite(value) {
@@ -73,16 +73,16 @@ export function toFinite(value) {
  * @see isInteger, isNumber, toNumber
  * @example
  *
- * toInteger(3.2)
+ * _Number.toInteger(3.2)
  * // => 3
  *
- * toInteger(Number.MIN_VALUE)
+ * _Number.toInteger(Number.MIN_VALUE)
  * // => 0
  *
- * toInteger(Infinity)
+ * _Number.toInteger(Infinity)
  * // => 1.7976931348623157e+308
  *
- * toInteger('3.2')
+ * _Number.toInteger('3.2')
  * // => 3
  */
 export function toInteger(value) {
@@ -103,16 +103,16 @@ const MAX_ARRAY_LENGTH = 4294967295;
  * @returns {number} Returns the converted integer.
  * @example
  *
- * toLength(3.2)
+ * _Number.toLength(3.2)
  * // => 3
  *
- * toLength(Number.MIN_VALUE)
+ * _Number.toLength(Number.MIN_VALUE)
  * // => 0
  *
- * toLength(Infinity)
+ * _Number.toLength(Infinity)
  * // => 4294967295
  *
- * toLength('3.2')
+ * _Number.toLength('3.2')
  * // => 3
  */
 export function toLength(value) {
@@ -139,16 +139,16 @@ const MAX_SAFE_INTEGER = 9007199254740991;
  * @returns {number} Returns the converted integer.
  * @example
  *
- * toSafeInteger(3.2)
+ * _Number.toSafeInteger(3.2)
  * // => 3
  *
- * toSafeInteger(Number.MIN_VALUE)
+ * _Number.toSafeInteger(Number.MIN_VALUE)
  * // => 0
  *
- * toSafeInteger(Infinity)
+ * _Number.toSafeInteger(Infinity)
  * // => 9007199254740991
  *
- * toSafeInteger('3.2')
+ * _Number.toSafeInteger('3.2')
  * // => 3
  */
 export function toSafeInteger(value) {
@@ -179,13 +179,9 @@ const base = (chars) => {
 
 const _chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
-/** Number to Base 64 */
-const safe64 = base(`${_chars}-_`);
-
-/** Number to Base 64 */
-const base64 = base(`${_chars}+/`);
-
-export { safe64, base64 };
+/** Export Number to Base 64 */
+export const safe64 = base(`${_chars}-_`);
+export const base64 = base(`${_chars}+/`);
 
 /**
  * UUID generator

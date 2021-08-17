@@ -1,21 +1,21 @@
 /**
  * @example
  * fetch('http://example.com')
- *  .then(getResponse)
+ *  .then(_Fetch.getResponse)
  */
 export const getResponse = (response) => response.json();
 
 /**
  * @example
  * fetch('http://example.com')
- *  .then(getResponse)
- *  .then(processJSON);
+ *  .then(_Fetch.getResponse)
+ *  .then(_Fetch.processJSON);
  */
 export const processJSON = (jsonObject) => console.log(jsonObject);
 
 /**
  * @example
- * const response = await fetch('http://example.com', writeServer("POST", newMovie))
+ * const response = await fetch('http://example.com', _Fetch.writeServer("POST", newMovie))
  */
 export const writeServer = (action, data = {}) => {
   return {

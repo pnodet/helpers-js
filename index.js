@@ -7,6 +7,7 @@ export { default as _Error } from "./src/_error.js";
 export * as _Fetch from "./src/_fetch.js";
 export * as _Func from "./src/_func.js";
 export { default as _Is } from "./src/_is.js";
+export { default as _LazyLoad } from "./src/_lazyload.js";
 export * as _Number from "./src/_number.js";
 export * as _Object from "./src/_object.js";
 export * as _String from "./src/_string.js";

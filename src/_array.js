@@ -316,9 +316,9 @@ export function sample(array) {
  * @returns {Array} Returns the slice of `array`.
  * @example
  *
- * var array = [1, 2, 3, 4]
+ * let array = [1, 2, 3, 4]
  *
- * _.slice(array, 2)
+ * _Array.slice(array, 2)
  * // => [3, 4]
  */
 export function slice(array, start, end) {
