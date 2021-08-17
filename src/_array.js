@@ -19,14 +19,14 @@ export const compact = (arr) => arr.filter(Boolean);
  * @param {*} val
  * @return {Array}
  */
-export const castArray = (val) => (Array.isArray(val) ? val : [val]);
+export const cast = (val) => (Array.isArray(val) ? val : [val]);
 
 /**
  * Converts the elements that don’t have commas or double quotes to strings with comma-separated values
  * @param {Array} arr
  * @param {String} [delimiter=',']
  */
-export const arrayToCSV = (arr, delimiter = ",") =>
+export const toCSV = (arr, delimiter = ",") =>
   arr.map((v) => v.map((x) => `"${x}"`).join(delimiter)).join("\n");
 
 /**
@@ -98,7 +98,7 @@ export const unDuplicate = (arr) => Array.from(new Set(arr));
  * @param {Number} [limit=1]
  * @return {*[]}
  */
-export const array_chunk = (arr, limit = 1) => {
+export const toChunks = (arr, limit = 1) => {
   if (limit < 1) {
     throw new Error("Limit value should be greater than 1");
   }
@@ -116,7 +116,7 @@ export const array_chunk = (arr, limit = 1) => {
  * @param fn
  * @return {unknown[]}
  */
-export const array_group = (arr, fn) => Object.values(array_group_map(arr, fn));
+export const group = (arr, fn) => Object.values(groupMap(arr, fn));
 
 /**
  * Group items by common key and return an object of items grouped by key.
@@ -124,7 +124,7 @@ export const array_group = (arr, fn) => Object.values(array_group_map(arr, fn));
  * @param fn
  * @return {{}}
  */
-export const array_group_map = (arr, fn) => {
+export const groupMap = (arr, fn) => {
   const out = {};
   arr.forEach(function (item) {
     const key = fn(item);

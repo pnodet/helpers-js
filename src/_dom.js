@@ -42,7 +42,7 @@ export const getAttributes = el => {
 }
 
 /** Create an array of DOM elements from given html */
-export const createElements = (html = '') => {
+export const createElementsArray = (html = '') => {
   html = html.trim()
   if (!html) return []
 
@@ -55,7 +55,7 @@ export const createElements = (html = '') => {
 export const createElement = (name, attributes = {}, content = '') => {
   const html = tag(name, attributes, content)
 
-  const elements = createElements(html)
+  const elements = createElementsArray(html)
   if (elements.length === 0) return null
   return elements[0]
 }

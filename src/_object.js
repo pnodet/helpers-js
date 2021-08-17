@@ -61,9 +61,8 @@ export function functions(object) {
  * has(other, 'a')
  * // => false
  */
-export function has(object, key) {
-  return object != null && hasOwnProperty.call(object, key);
-}
+export const has = (object, key) =>
+  object != null && hasOwnProperty.call(object, key);
 
 /**
  * Creates an object composed of the inverted keys and values of `object`.
@@ -107,14 +106,14 @@ export function invert(object) {
  * // => { 'group1': ['a', 'c'], 'group2': ['b'] }
  */
 export function invertBy(object, iteratee) {
-  const result = {}
+  const result = {};
   Object.keys(object).forEach((key) => {
-    const value = iteratee(object[key])
+    const value = iteratee(object[key]);
     if (hasOwnProperty.call(result, value)) {
-      result[value].push(key)
+      result[value].push(key);
     } else {
-      result[value] = [key]
+      result[value] = [key];
     }
-  })
-  return result
+  });
+  return result;
 }
