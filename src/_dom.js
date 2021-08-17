@@ -1,7 +1,8 @@
 /**
  * @param {Node} el the element
  */
-export const isWebComponent = el => el && el.shadowRoot && el.tagName.includes('-');
+export const isWebComponent = (el) =>
+  el && el.shadowRoot && el.tagName.includes("-");
 
 /** Select all elements matching given selector */
 export const allElements = (selector, root = document) => {
@@ -14,67 +15,83 @@ export const allElements = (selector, root = document) => {
 /** Select element with a given id */
 export const id = (elementId, root = document) => {
   if (isWebComponent(root)) {
-    root = root.shadowRoot
+    root = root.shadowRoot;
   }
-  return root.getElementById(elementId)
-}
+  return root.getElementById(elementId);
+};
 
 /** Select next child */
 export const nextChild = (pathItem, root) => {
   const isShadowRoot = pathItem === "shadowRoot" || pathItem === "shadow-root";
   return isShadowRoot ? root.shadowRoot : root.querySelector(pathItem);
-}
+};
+
+/** Get parent by Id */
+export const getParentById = (node, id) => {
+  while (node) {
+    if (node.id === id) return node;
+    node = node.parentNode;
+  }
+};
+
+/** Get parent by data */
+export const getParentByData = (node, key, value) => {
+  while (node) {
+    if (node.dataset[key] === value) return node;
+    node = node.parentNode;
+  }
+};
 
 /**
  * Get attributes of an element as an object with key/value
  * @param {Node} el
  */
-export const getAttributes = el => {
-  const result = {}
-  const atts = el.attributes
-  if (!atts || atts.length === 0) return result
+export const getAttributes = (el) => {
+  const result = {};
+  const atts = el.attributes;
+  if (!atts || atts.length === 0) return result;
 
   for (let i = 0; i < atts.length; i++) {
-    const a = atts[i]
-    result[a.name] = a.value
+    const a = atts[i];
+    result[a.name] = a.value;
   }
-  return result
-}
+  return result;
+};
 
 /** Create an array of DOM elements from given html */
-export const createElementsArray = (html = '') => {
-  html = html.trim()
-  if (!html) return []
+export const createElementsArray = (html = "") => {
+  html = html.trim();
+  if (!html) return [];
 
-  const temp = document.createElement('template')
-  temp.innerHTML = html
-  return Array.from(temp.content.childNodes)
-}
+  const temp = document.createElement("template");
+  temp.innerHTML = html;
+  return Array.from(temp.content.childNodes);
+};
 
 /** Create a single DOM element */
-export const createElement = (name, attributes = {}, content = '') => {
-  const html = tag(name, attributes, content)
+export const createElement = (name, attributes = {}, content = "") => {
+  const html = tag(name, attributes, content);
 
-  const elements = createElementsArray(html)
-  if (elements.length === 0) return null
-  return elements[0]
-}
+  const elements = createElementsArray(html);
+  if (elements.length === 0) return null;
+  return elements[0];
+};
 
 export const attsToString = (attributes) => {
-  const array = []
+  const array = [];
   forEachEntry(attributes, (k, v) => {
-    array.push(`${k}="${v}"`)
-  })
-  const sep = array.length > 0 ? ' ' : ''
-  return sep + array.join(' ')
-}
+    array.push(`${k}="${v}"`);
+  });
+  const sep = array.length > 0 ? " " : "";
+  return sep + array.join(" ");
+};
 
 /** Create the html for a given tag */
-export const tag = (name, attributes = {}, content = '') => {
-  if (!name) return ''
-  const atts = attsToString(attributes)
-  return `<${name}${atts}>${content}</${name}>`
-}
+export const tag = (name, attributes = {}, content = "") => {
+  if (!name) return "";
+  const atts = attsToString(attributes);
+  return `<${name}${atts}>${content}</${name}>`;
+};
 
 /**
  * Set the content of an element
@@ -82,24 +99,24 @@ export const tag = (name, attributes = {}, content = '') => {
  * @param {String or DomElement} content The new content. Can be a string or another DOM element
  */
 export const setContent = (element, ...content) => {
-  element.innerHTML = ''
-  element.append(...content)
-}
+  element.innerHTML = "";
+  element.append(...content);
+};
 
 /** Remove elements matching given selector */
 export const removeElements = (selector, root = document) => {
-  const elements = all(selector, root)
-  elements.forEach(el => {
-    el.parentNode.removeChild(el)
-  })
-}
+  const elements = all(selector, root);
+  elements.forEach((el) => {
+    el.parentNode.removeChild(el);
+  });
+};
 
 /** Add/remove a given class if condition is true/false */
 export const classPresentIf = (el, cssClass, condition) => {
-  if (!el) return
-  const func = condition ? 'add' : 'remove'
-  el.classList[func](cssClass)
-}
+  if (!el) return;
+  const func = condition ? "add" : "remove";
+  el.classList[func](cssClass);
+};
 
 /**
  * Get the value of a cookie
@@ -167,9 +184,10 @@ export const serialize = (data) => {
   return obj;
 };
 
-const isType = (v, type) => Object.prototype.toString.call(v) === `[object ${type}]`;
+const isType = (v, type) =>
+  Object.prototype.toString.call(v) === `[object ${type}]`;
 /** Check if given argument is of String type */
-const isString = (s) => isType(s, 'String')
+const isString = (s) => isType(s, "String");
 
 const LOCATIONS = new Set([
   "beforebegin",
@@ -196,4 +214,51 @@ export const add = (target, tobeAdded, location = "beforeend") => {
     addElements(target, tobeAdded, location);
   }
   return true;
+};
+
+/**
+ * Set cursor position in html textbox
+ * @link http://stackoverflow.com/questions/512528/set-cursor-position-in-html-textbox
+ */
+export function setCaretPosition(el, start, end) {
+  // get "focus" and make sure we don't have everything -selected-
+  el.value = el.value;
+
+  // (el.selectionStart === 0 added for Firefox bug)
+  if (el.selectionStart || el.selectionStart === 0) {
+    el.focus();
+    if (!end || end < start) {
+      end = start;
+    }
+    el.setSelectionRange(start, end);
+    return true;
+  }
+
+  if (el.createTextRange) {
+    const range = el.createTextRange();
+    range.move("character", end);
+    range.select();
+    return true;
+  }
+
+  el.focus();
+  return false;
 }
+
+/**
+ * Encode favicon
+ */
+const document = require("global/document");
+const docHead = document.getElementsByTagName("head")[0];
+const favicon = (mime, base64data) => {
+  const newLink = document.createElement("link");
+
+  newLink.rel = "shortcut icon";
+  newLink.href = "data:image/" + mime + ";base64," + base64data;
+  docHead.appendChild(newLink);
+};
+
+favicon.ico = (base64data) => favicon("x-icon", base64data);
+favicon.png = (base64data) => favicon("png", base64data);
+
+export { favicon };

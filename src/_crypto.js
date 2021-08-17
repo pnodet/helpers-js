@@ -40,7 +40,7 @@ export const hash_sha256 = (data) =>
   crypto.createHash("sha256").update(data).digest();
 
 /** Used to generate unique IDs. */
-const idCounter = {}
+const idCounter = {};
 
 /**
  * Generates a unique ID. If `prefix` is given, the ID is appended to it.
@@ -54,15 +54,15 @@ const idCounter = {}
  * uniqueId()
  * // => '105'
  */
-export function uniqueId(prefix='$lodash$') {
+export function uniqueId(prefix = "$lodash$") {
   if (!idCounter[prefix]) {
-    idCounter[prefix] = 0
+    idCounter[prefix] = 0;
   }
 
-  const id =++idCounter[prefix]
-  if (prefix === '$lodash$') {
-    return `${id}`
+  const id = ++idCounter[prefix];
+  if (prefix === "$lodash$") {
+    return `${id}`;
   }
 
-  return `${prefix}${id}`
+  return `${prefix}${id}`;
 }

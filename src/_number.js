@@ -1,9 +1,13 @@
 /**
  * Get a number bewteen two values.
  * @param {number} min
- * @param {number} max
+ * @param {number} [max]
  */
 export const getRandomIntInclusive = (min, max) => {
+  if (max === undefined) {
+    max = min;
+    min = 0;
+  }
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -19,7 +23,7 @@ export const coinFlip = () => Number(Math.random > 0.5);
  * @param {number} a min
  * @param {number} b max
  * @return {Boolean}
- */ 
+ */
 export const between = (delta, a, b) => {
   const min = Math.min.apply(Math, [a, b]);
   const max = Math.max.apply(Math, [a, b]);
@@ -27,8 +31,8 @@ export const between = (delta, a, b) => {
 };
 
 /** Used as references for various `Number` constants. */
-const INFINITY = 1 / 0
-const MAX_INTEGER = 1.7976931348623157e+308
+const INFINITY = 1 / 0;
+const MAX_INTEGER = 1.7976931348623157e308;
 
 /**
  * Converts `value` to a finite number.
@@ -50,14 +54,14 @@ const MAX_INTEGER = 1.7976931348623157e+308
  */
 export function toFinite(value) {
   if (!value) {
-    return value === 0 ? value : 0
+    return value === 0 ? value : 0;
   }
-  value = toNumber(value)
+  value = toNumber(value);
   if (value === INFINITY || value === -INFINITY) {
-    const sign = (value < 0 ? -1 : 1)
-    return sign * MAX_INTEGER
+    const sign = value < 0 ? -1 : 1;
+    return sign * MAX_INTEGER;
   }
-  return value === value ? value : 0
+  return value === value ? value : 0;
 }
 
 /**
@@ -82,13 +86,13 @@ export function toFinite(value) {
  * // => 3
  */
 export function toInteger(value) {
-  const result = toFinite(value)
-  const remainder = result % 1
-  return remainder ? result - remainder : result
+  const result = toFinite(value);
+  const remainder = result % 1;
+  return remainder ? result - remainder : result;
 }
 
 /** Used as references for the maximum length and index of an array. */
-const MAX_ARRAY_LENGTH = 4294967295
+const MAX_ARRAY_LENGTH = 4294967295;
 
 /**
  * Converts `value` to an integer suitable for use as the length of an
@@ -113,20 +117,20 @@ const MAX_ARRAY_LENGTH = 4294967295
  */
 export function toLength(value) {
   if (!value) {
-    return 0
+    return 0;
   }
-  value = toInteger(value)
+  value = toInteger(value);
   if (value < 0) {
-    return 0
+    return 0;
   }
   if (value > MAX_ARRAY_LENGTH) {
-    return MAX_ARRAY_LENGTH
+    return MAX_ARRAY_LENGTH;
   }
-  return value
+  return value;
 }
 
 /** Used as references for various `Number` constants. */
-const MAX_SAFE_INTEGER = 9007199254740991
+const MAX_SAFE_INTEGER = 9007199254740991;
 
 /**
  * Converts `value` to a safe integer. A safe integer can be compared and
@@ -149,14 +153,51 @@ const MAX_SAFE_INTEGER = 9007199254740991
  */
 export function toSafeInteger(value) {
   if (!value) {
-    return value === 0 ? value : 0
+    return value === 0 ? value : 0;
   }
-  value = toInteger(value)
+  value = toInteger(value);
   if (value < -MAX_SAFE_INTEGER) {
-    return -MAX_SAFE_INTEGER
+    return -MAX_SAFE_INTEGER;
   }
   if (value > MAX_SAFE_INTEGER) {
-    return MAX_SAFE_INTEGER
+    return MAX_SAFE_INTEGER;
   }
-  return value
+  return value;
 }
+
+/** Number to Base 64 */
+const base = (chars) => {
+  const max = chars.length;
+  const baseLoop = (num, res = "") => {
+    const mod = num % max;
+    const remaining = Math.floor(num / max);
+    const c = chars[mod] + res;
+    return remaining <= 0 ? c : baseLoop(remaining, c);
+  };
+  return baseLoop;
+};
+
+const _chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+/** Number to Base 64 */
+const safe64 = base(`${_chars}-_`);
+
+/** Number to Base 64 */
+const base64 = base(`${_chars}+/`);
+
+export { safe64, base64 };
+
+/**
+ * UUID generator
+ * @returns {String} The generated uuid
+ */
+export const getUUID = () =>
+  pad(
+    safe64(getRandomIntInclusive(Math.pow(64, 8))) +
+      safe64(getRandomIntInclusive(Math.pow(64, 8))) +
+      safe64(getRandomIntInclusive(Math.pow(64, 8))) +
+      safe64(getRandomIntInclusive(Math.pow(64, 8)))
+  );
+const _pad = "0000000000000000000000000000000";
+const pad = (uuid) =>
+  uuid.length < 32 ? _pad.slice(0, 32 - uuid.length) + uuid : uuid;

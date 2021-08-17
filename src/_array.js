@@ -22,6 +22,22 @@ export const compact = (arr) => arr.filter(Boolean);
 export const cast = (val) => (Array.isArray(val) ? val : [val]);
 
 /**
+ * append value into array
+ * @param  {Array} arr - The array
+ * @param {*} val
+ * @return {Array}
+ */
+export const append = (arr, val) => (arr ? (arr.push(val), arr) : [val]);
+
+/**
+ * prepend value into array
+ * @param  {Array} arr - The array
+ * @param {*} val
+ * @return {Array}
+ */
+export const prepend = (arr, val) => (arr ? (arr.unshift(val), arr) : [val]);
+
+/**
  * Converts the elements that don’t have commas or double quotes to strings with comma-separated values
  * @param {Array} arr
  * @param {String} [delimiter=',']
@@ -94,6 +110,25 @@ export const sortBy = (arr, p) =>
  * @return {Array}     A new array with duplicates removed
  */
 export const unDuplicate = (arr) => Array.from(new Set(arr));
+
+/**
+ * Pick a random item in an array
+ * @param  {Array} arr - The array
+ * @returns {*} A randomly selected value
+ */
+export const random = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+/**
+ * Remove an item of an array
+ * @param  {Array} arr - The array
+ * @param  {*} elem - The array
+ */
+export const remove = (arr, elem) => {
+  if (!arr) return;
+  const idx = arr.indexOf(elem);
+  if (idx < 0) return;
+  arr.splice(idx, 1);
+};
 
 /**
  * Split an array into chunks.

@@ -136,11 +136,11 @@ export function invertBy(object, iteratee) {
  * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
  */
 export function keysIn(object) {
-  const result = []
+  const result = [];
   for (const key in object) {
-    result.push(key)
+    result.push(key);
   }
-  return result
+  return result;
 }
 
 /**
@@ -162,13 +162,13 @@ export function keysIn(object) {
  * // => { 'fred': 40, 'pebbles': 1 } (iteration order is not guaranteed)
  */
 export function mapValue(object, iteratee) {
-  object = Object(object)
-  const result = {}
+  object = Object(object);
+  const result = {};
 
   Object.keys(object).forEach((key) => {
-    result[key] = iteratee(object[key], key, object)
-  })
-  return result
+    result[key] = iteratee(object[key], key, object);
+  });
+  return result;
 }
 
 /**
@@ -187,14 +187,14 @@ export function mapValue(object, iteratee) {
  * // => { 'a1': 1, 'b2': 2 }
  */
 export function mapKey(object, iteratee) {
-  object = Object(object)
-  const result = {}
+  object = Object(object);
+  const result = {};
 
   Object.keys(object).forEach((key) => {
-    const value = object[key]
-    result[iteratee(value, key, object)] = value
-  })
-  return result
+    const value = object[key];
+    result[iteratee(value, key, object)] = value;
+  });
+  return result;
 }
 
 /**
@@ -213,13 +213,13 @@ export function mapKey(object, iteratee) {
  * // => [16, 64] (iteration order is not guaranteed)
  */
 export function mapObject(object, iteratee) {
-  const props = Object.keys(object)
-  const result = new Array(props.length)
+  const props = Object.keys(object);
+  const result = new Array(props.length);
 
   props.forEach((key, index) => {
-    result[index] = iteratee(object[key], key, object)
-  })
-  return result
+    result[index] = iteratee(object[key], key, object);
+  });
+  return result;
 }
 
 /**
@@ -242,10 +242,10 @@ export function mapObject(object, iteratee) {
  * // => { 'a': 1, 'b': 2, 'c': 3 }
  */
 export function toPlainObject(value) {
-  value = Object(value)
-  const result = {}
+  value = Object(value);
+  const result = {};
   for (const key in value) {
-    result[key] = value[key]
+    result[key] = value[key];
   }
-  return result
+  return result;
 }
