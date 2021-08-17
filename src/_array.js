@@ -158,3 +158,55 @@ export const shuffle = (array) => {
 
   return array;
 };
+
+/**
+ * Returns an object composed from key-value `pairs`.
+ * @param {Array} pairs The key-value pairs.
+ * @returns {Object} Returns the new object.
+ * @example
+ *
+ * fromEntries([['a', 1], ['b', 2]])
+ * // => { 'a': 1, 'b': 2 }
+ */
+export function fromEntries(pairs) {
+  const result = {}
+  if (pairs == null) {
+    return result
+  }
+  for (const pair of pairs) {
+    result[pair[0]] = pair[1]
+  }
+  return result
+}
+
+/**
+ * Gets the first element of `array`.
+ * @param {Array} array The array to query.
+ * @returns {*} Returns the first element of `array`.
+ * @example
+ *
+ * head([1, 2, 3])
+ * // => 1
+ *
+ * head([])
+ * // => undefined
+ */
+export function head(array) {
+  return (array != null && array.length)
+    ? array[0]
+    : undefined
+}
+
+/**
+ * Gets the last element of `array`.
+ * @param {Array} array The array to query.
+ * @returns {*} Returns the last element of `array`.
+ * @example
+ *
+ * last([1, 2, 3])
+ * // => 3
+ */
+export function last(array) {
+  const length = array == null ? 0 : array.length
+  return length ? array[length - 1] : undefined
+}
