@@ -124,7 +124,7 @@ export const getOS = async (agent) => {
  * @param {String} agent Useragent
  * @returns {Promise<string>}
  */
-export const isMobile = async (agent) => {
+export const getMobile = async (agent) => {
   const mobiles = [
     "kaios",
     "samsung",
