@@ -7,9 +7,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pnxdxt/helpers-js.git"
+    "url": "https://github.com/pnxdxt/helpers-js.git"
   },
   "type": "module",
+  "main": "index.js",
+  "module": "index.js",
+  "files": [
+    "src/*.js",
+    "index.js"
+  ],
   "engines": {
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
   },
@@ -19,6 +25,11 @@
     "url": "https://pnodet.com"
   },
   "license": "MIT",
+  "keywords": [
+    "helper",
+    "functions",
+    "lightweight"
+  ],
   "bugs": {
     "url": "https://github.com/pnxdxt/helpers-js/issues"
   },
