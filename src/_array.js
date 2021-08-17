@@ -65,8 +65,11 @@ export const average = (...nums) =>
  * @return {Array}     A new array with duplicates removed
  */
 export const flatten = (arr, depth = 1) =>
-  arr.reduce((a, v) =>
-    a.concat(depth > 1 && Array.isArray(v) ? flatten(v, depth - 1) : v), []);
+  arr.reduce(
+    (a, v) =>
+      a.concat(depth > 1 && Array.isArray(v) ? flatten(v, depth - 1) : v),
+    []
+  );
 
 /**
  * Flattens an array recursively
@@ -169,14 +172,14 @@ export const shuffle = (array) => {
  * // => { 'a': 1, 'b': 2 }
  */
 export function fromEntries(pairs) {
-  const result = {}
+  const result = {};
   if (pairs == null) {
-    return result
+    return result;
   }
   for (const pair of pairs) {
-    result[pair[0]] = pair[1]
+    result[pair[0]] = pair[1];
   }
-  return result
+  return result;
 }
 
 /**
@@ -192,9 +195,7 @@ export function fromEntries(pairs) {
  * // => undefined
  */
 export function head(array) {
-  return (array != null && array.length)
-    ? array[0]
-    : undefined
+  return array != null && array.length ? array[0] : undefined;
 }
 
 /**
@@ -207,6 +208,106 @@ export function head(array) {
  * // => 3
  */
 export function last(array) {
-  const length = array == null ? 0 : array.length
-  return length ? array[length - 1] : undefined
+  const length = array == null ? 0 : array.length;
+  return length ? array[length - 1] : undefined;
+}
+
+/**
+ * Gets all but the first element of `array`.
+ * @param {Array} array The array to query.
+ * @returns {Array} Returns the slice of `array`.
+ * @example
+ *
+ * tail([1, 2, 3])
+ * // => [2, 3]
+ */
+export function tail(array) {
+  const length = array == null ? 0 : array.length;
+  if (!length) {
+    return [];
+  }
+  const [, ...result] = array;
+  return result;
+}
+
+/**
+ * Creates an array of values by running each element of `array` thru `iteratee`.
+ * The iteratee is invoked with three arguments: (value, index, array).
+ * @param {Array} array The array to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array} Returns the new mapped array.
+ * @example
+ *
+ * function square(n) {
+ *   return n * n
+ * }
+ *
+ * map([4, 8], square)
+ * // => [16, 64]
+ */
+export function map(array, iteratee) {
+  let index = -1;
+  const length = array == null ? 0 : array.length;
+  const result = new Array(length);
+
+  while (++index < length) {
+    result[index] = iteratee(array[index], index, array);
+  }
+  return result;
+}
+
+/**
+ * Gets a random element from `array`.
+ * @param {Array} array The array to sample.
+ * @returns {*} Returns the random element.
+ * @example
+ *
+ * sample([1, 2, 3, 4])
+ * // => 2
+ */
+export function sample(array) {
+  const length = array == null ? 0 : array.length;
+  return length ? array[Math.floor(Math.random() * length)] : undefined;
+}
+
+/**
+ * Creates a slice of `array` from `start` up to, but not including, `end`.
+ * **Note:** This method is used instead of
+ * [`Array#slice`](https://mdn.io/Array/slice) to ensure dense arrays are
+ * returned.
+ * @param {Array} array The array to slice.
+ * @param {number} [start=0] The start position. A negative index will be treated as an offset from the end.
+ * @param {number} [end=array.length] The end position. A negative index will be treated as an offset from the end.
+ * @returns {Array} Returns the slice of `array`.
+ * @example
+ *
+ * var array = [1, 2, 3, 4]
+ *
+ * _.slice(array, 2)
+ * // => [3, 4]
+ */
+export function slice(array, start, end) {
+  let length = array == null ? 0 : array.length;
+  if (!length) {
+    return [];
+  }
+  start = start == null ? 0 : start;
+  end = end === undefined ? length : end;
+
+  if (start < 0) {
+    start = -start > length ? 0 : length + start;
+  }
+  end = end > length ? length : end;
+  if (end < 0) {
+    end += length;
+  }
+  length = start > end ? 0 : (end - start) >>> 0;
+  start >>>= 0;
+
+  let index = -1;
+  const result = new Array(length);
+  while (++index < length) {
+    result[index] = array[index + start];
+  }
+  return result;
 }
