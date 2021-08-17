@@ -1,6 +1,7 @@
 export * as _Array from "./src/_array.js";
 export * as _Crypto from "./src/_crypto.js";
 export * as _Css from "./src/_css.js";
+export { default as _Curry } from "./src/_curry.js";
 export * as _Dom from "./src/_dom.js";
 export { default as _Error } from "./src/_error.js";
 export * as _Fetch from "./src/_fetch.js";
