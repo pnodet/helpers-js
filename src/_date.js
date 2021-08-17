@@ -56,12 +56,7 @@ export function getMonthEnd(dateObj) {
 }
 
 /**
- * startWeekDay: 0 is Sunday
- * return: [getCalendar_Day x 7][]
- * @param {Number} year
- * @param {Number} month
- * @param {Number} [startWeekDay]
- * @returns {{
+ * @typedef {{
  *   year: number,
  *   month: number,
  *   date: number,
@@ -69,7 +64,16 @@ export function getMonthEnd(dateObj) {
  *   prevMonth?: boolean,
  *   currentMonth?: boolean,
  *   nextMonth?: boolean,
- * }}
+ * }} getCalendar_Day
+ */ 
+
+/**
+ * startWeekDay: 0 is Sunday
+ * return: [getCalendar_Day x 7][]
+ * @param {Number} year
+ * @param {Number} month
+ * @param {Number} [startWeekDay]
+ * @returns {getCalendar_Day}
  */
 export function getCalendar(year, month, startWeekDay = 0) {
   const results = [];

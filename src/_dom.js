@@ -555,3 +555,109 @@ export function getBoundingClientRect(el) {
 
 /** refer [getBoundingClientRect](#getBoundingClientRect) */
 export const getViewportPosition = getBoundingClientRect;
+
+/**
+ * @typedef {{
+ *   glb: Window;
+ *   uniqueId: { [id: string]: true };
+ *   localStorage2?: ReturnType<typeof makeStorageHelper>;
+ *   sessionStorage2?: ReturnType<typeof makeStorageHelper>;
+ * }} Store
+ */
+
+/**
+ * @param {Store} store
+ */
+export const store = { uniqueId: {} };
+/**
+ * get global, such as window in browser.
+ * @param {Window} glb
+ */
+export function glb() {
+  // `this` !== global or window because of build tool. So you can't use `this` to get `global`
+  if (store.glb) {
+    return store.glb;
+  } else {
+    // resolve global
+    let t;
+    try {
+      t = global;
+    } catch (e) {
+      t = window;
+    }
+    store.glb = t;
+    return t;
+  }
+}
+
+export function windowLoaded() {
+  return new Promise(function (resolve, reject) {
+    if (document && document.readyState === "complete") {
+      resolve();
+    } else {
+      glb().addEventListener("load", function once() {
+        resolve();
+        glb().removeEventListener("load", once);
+      });
+    }
+  });
+}
+
+export function makeStorageHelper(storage) {
+  return {
+    storage: storage,
+    /**
+     * @param {String} name
+     * @param {*} value
+     * @param {number} minutes
+     */
+    set(name, value, minutes) {
+      // set null can remove a item
+      if (value == null) {
+        this.storage.removeItem(name);
+      } else {
+        this.storage.setItem(
+          name,
+          JSON.stringify({
+            value,
+            expired_at: minutes
+              ? new Date().getTime() + minutes * 60 * 1000
+              : null,
+          })
+        );
+      }
+    },
+    /**
+     * @param {String} name
+     */
+    get(name) {
+      let t = this.storage.getItem(name);
+      if (t) {
+        t = JSON.parse(t);
+        if (!t.expired_at || t.expired_at > new Date().getTime()) {
+          return t.value;
+        } else {
+          this.storage.removeItem(name);
+        }
+      }
+      return null;
+    },
+    clear() {
+      this.storage.clear();
+    },
+  };
+}
+
+export function getLocalStorage2() {
+  if (!store.localStorage2) {
+    store.localStorage2 = makeStorageHelper(localStorage);
+  }
+  return store.localStorage2;
+}
+
+export function getSessionStorage2() {
+  if (!store.sessionStorage2) {
+    store.sessionStorage2 = makeStorageHelper(glb().sessionStorage);
+  }
+  return store.sessionStorage2;
+}

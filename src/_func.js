@@ -162,3 +162,66 @@ export const times = (n, iteratee) => {
   }
   return result;
 };
+
+/**
+ * @param {number} milliseconds The function to run.
+ * @param {Function} [callback] The arguments to invoke `func` with.
+ * @returns {Promise<Void>}
+ */
+export function waitTime(milliseconds, callback) {
+  return new Promise(function (resolve, reject) {
+    setTimeout(function () {
+      callback && callback();
+      resolve();
+    }, milliseconds);
+  });
+}
+
+/**
+ * @param {Function} condition The function to try, returns a Boolean.
+ * @param {Number} [time] time.
+ * @param {Number} [maxTimes] max times.
+ */
+export function waitFor(condition, time = 100, maxTimes = 1000) {
+  let interval;
+  const promise = new Promise(function (resolve, reject) {
+    let count = 0;
+    function judge() {
+      if (count <= maxTimes) {
+        if (condition()) {
+          stop();
+          resolve();
+        }
+      } else {
+        stop();
+        reject(new Error("waitFor: Limit is reached"));
+      }
+      count++;
+    }
+    interval = setInterval(function () {
+      judge();
+    }, time);
+    judge();
+  });
+  return { promise, stop };
+  function stop() {
+    clearInterval(interval);
+  }
+}
+
+/**
+ * @param {Function} func The function to run.
+ * @param {Number} [limitTimes] Max retry number.
+ * @param {...*} [args] Arguments to pass to the function
+ */
+export async function retry(func, limitTimes = 3, ...args) {
+  for (let index = 1; index <= limitTimes; index++) {
+    try {
+      return await func(...args);
+    } catch (error) {
+      if (index === limitTimes) {
+        throw error;
+      }
+    }
+  }
+}
