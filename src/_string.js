@@ -141,3 +141,63 @@ export function replace(...args) {
   const string = `${args[0]}`;
   return args.length < 3 ? string : string.replace(args[1], args[2]);
 }
+
+/**
+ * Checks if value is valid mail.
+ * @param {String} value
+ * @return {boolean}
+ */
+export const isMail = (value) => {
+  let expression =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return expression.test(String(value).toLowerCase());
+};
+
+/**
+ * Checks if value is valid url.
+ * @param {String} value
+ * @return {boolean}
+ */
+export const isUrl = (value) => {
+  let expression =
+    /^(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/;
+  return expression.test(String(value).toLowerCase());
+};
+
+/**
+ * Checks if value is valid url.
+ * @param {String} url
+ * @return {boolean}
+ */
+export const isImageUrl = (url) => {
+  if (stringType.is(url)) {
+    return url.toLowerCase().match(/\.(jpeg|jpg|gif|png)$/) != null;
+  } else {
+    return false;
+  }
+};
+
+/**
+ * Checks if value is valid phone number.
+ * @param {String} value
+ * @return {boolean}
+ */
+export const isPhone = (value) => {
+  let expression = /^(\(?\+\d+\)?[\s.-]?)?\(?\d+\)?[\s.-]?\d+[\s.-]?\d+$/;
+  return expression.test(String(value).toLowerCase());
+};
+
+/**
+ * Generates a random string.
+ * @param {Number} [length]
+ * @returns {String}
+ */
+export const random = (length = 10) => {
+  let text = "";
+  let possible =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for (let i = 0; i < length; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return text;
+};
