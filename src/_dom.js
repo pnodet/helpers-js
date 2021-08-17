@@ -248,7 +248,7 @@ export function setCaretPosition(el, start, end) {
 /**
  * Encode favicon
  */
-const document = require("global/document");
+//FIXME: const document = require("global/document");
 const docHead = document.getElementsByTagName("head")[0];
 const favicon = (mime, base64data) => {
   const newLink = document.createElement("link");
