@@ -17,6 +17,23 @@ export function delay(func, wait, ...args) {
   return setTimeout(func, +wait || 0, ...args);
 }
 
+const isFunc = (obj) => this.getType(obj) === "function";
+
+/**
+ * @param {*} func The function to run.
+ * @param {...*} [args] The arguments to invoke `func` with.
+ * @returns {boolean} is it safe?
+ */
+export function safelyRun(func, ...args) {
+  let result = null;
+
+  if (isFunc(func)) {
+    result = func(...args);
+  }
+
+  return result;
+}
+
 /**
  * Returns a function that will only run N milliseconds after it stops being called.
  * Or optionally will only run once during multiple calls,
