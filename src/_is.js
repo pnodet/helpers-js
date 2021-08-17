@@ -20,6 +20,13 @@ const freeSelf =
 const root =
   freeGlobalThis || freeGlobal || freeSelf || Function("return this")();
 
+/** Detect free variable `exports`. */
+const freeExports =
+  typeof exports === "object" &&
+  exports !== null &&
+  !exports.nodeType &&
+  exports;
+
 /** Detect free variable `module`. */
 const freeModule =
   freeExports &&
@@ -27,13 +34,6 @@ const freeModule =
   module !== null &&
   !module.nodeType &&
   module;
-
-/** Detect free variable `exports`. */
-const freeExports =
-  typeof exports === "object" &&
-  exports !== null &&
-  !exports.nodeType &&
-  exports;
 
 /** Detect the popular CommonJS extension `module.exports`. */
 const moduleExports = freeModule && freeModule.exports === freeExports;
@@ -259,6 +259,7 @@ const isJSON = (str) => {
     return false;
   }
 };
+
 const isPrimitive = (prim) => {
   switch (typeof prim) {
     case "string":
@@ -314,7 +315,6 @@ const is = {
 };
 
 // const is = (type, val) => ![, null].includes(val) && val.constructor === type;
-
 Object.keys(is).forEach((key) => (is[key.slice(2).toLowerCase()] = is[key]));
 
 export default is;
