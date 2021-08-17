@@ -203,7 +203,7 @@ export const shuffle = (array) => {
  * @returns {Object} Returns the new object.
  * @example
  *
- * fromEntries([['a', 1], ['b', 2]])
+ * _Array.fromEntries([['a', 1], ['b', 2]])
  * // => { 'a': 1, 'b': 2 }
  */
 export function fromEntries(pairs) {
@@ -223,10 +223,10 @@ export function fromEntries(pairs) {
  * @returns {*} Returns the first element of `array`.
  * @example
  *
- * head([1, 2, 3])
+ * _Array.head([1, 2, 3])
  * // => 1
  *
- * head([])
+ * _Array.head([])
  * // => undefined
  */
 export function head(array) {
@@ -239,7 +239,7 @@ export function head(array) {
  * @returns {*} Returns the last element of `array`.
  * @example
  *
- * last([1, 2, 3])
+ * _Array.last([1, 2, 3])
  * // => 3
  */
 export function last(array) {
@@ -253,7 +253,7 @@ export function last(array) {
  * @returns {Array} Returns the slice of `array`.
  * @example
  *
- * tail([1, 2, 3])
+ * _Array.tail([1, 2, 3])
  * // => [2, 3]
  */
 export function tail(array) {
@@ -277,7 +277,7 @@ export function tail(array) {
  *   return n * n
  * }
  *
- * map([4, 8], square)
+ * _Array.map([4, 8], square)
  * // => [16, 64]
  */
 export function map(array, iteratee) {
@@ -297,7 +297,7 @@ export function map(array, iteratee) {
  * @returns {*} Returns the random element.
  * @example
  *
- * sample([1, 2, 3, 4])
+ * _Array.sample([1, 2, 3, 4])
  * // => 2
  */
 export function sample(array) {

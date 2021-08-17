@@ -48,10 +48,10 @@ const idCounter = {};
  * @returns {string} Returns the unique ID.
  * @example
  *
- * uniqueId('contact_')
+ * _Crypto.uniqueId('contact_')
  * // => 'contact_104'
  *
- * uniqueId()
+ * _Crypto.uniqueId()
  * // => '105'
  */
 export function uniqueId(prefix = "$lodash$") {

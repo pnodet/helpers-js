@@ -221,6 +221,7 @@ export const objectifyForm = (form) => {
 
 const isType = (v, type) =>
   Object.prototype.toString.call(v) === `[object ${type}]`;
+
 /** Check if given argument is of String type */
 const isString = (s) => isType(s, "String");
 

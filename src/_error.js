@@ -46,4 +46,6 @@ Object.keys(STATUS_CODES)
         });
   });
 
-export default Object.assign(error, { boom, isError, toJSON, ERROR });
+// FIXME: !
+Object.assign(error, { boom, isError, toJSON, ERROR });
+export default {error}

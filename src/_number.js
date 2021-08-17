@@ -1,3 +1,13 @@
+/** Used as references for various `Number` constants. */
+const INFINITY = 1 / 0;
+const MAX_INTEGER = 1.7976931348623157e308;
+const MAX_SAFE_INTEGER = 9007199254740991;
+const MAX_ARRAY_LENGTH = 4294967295;
+
+export const veryRarely = () => Number(Math.random > 0.9);
+export const rarely = () => Number(Math.random > 0.75);
+export const coinFlip = () => Number(Math.random > 0.5);
+
 /**
  * Get a number bewteen two values.
  * @param {number} min
@@ -13,10 +23,6 @@ export const getRandomIntInclusive = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-export const veryRarely = () => Number(Math.random > 0.9);
-export const rarely = () => Number(Math.random > 0.75);
-export const coinFlip = () => Number(Math.random > 0.5);
-
 /**
  * Is this number between a and b ?
  * @param {number} delta
@@ -29,10 +35,6 @@ export const between = (delta, a, b) => {
   const max = Math.max.apply(Math, [a, b]);
   return delta > min && delta < max;
 };
-
-/** Used as references for various `Number` constants. */
-const INFINITY = 1 / 0;
-const MAX_INTEGER = 1.7976931348623157e308;
 
 /**
  * Converts `value` to a finite number.
@@ -91,9 +93,6 @@ export function toInteger(value) {
   return remainder ? result - remainder : result;
 }
 
-/** Used as references for the maximum length and index of an array. */
-const MAX_ARRAY_LENGTH = 4294967295;
-
 /**
  * Converts `value` to an integer suitable for use as the length of an
  * array-like object.
@@ -128,9 +127,6 @@ export function toLength(value) {
   }
   return value;
 }
-
-/** Used as references for various `Number` constants. */
-const MAX_SAFE_INTEGER = 9007199254740991;
 
 /**
  * Converts `value` to a safe integer. A safe integer can be compared and

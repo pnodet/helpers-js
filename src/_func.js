@@ -1,3 +1,9 @@
+const isFunc = (obj) => this.getType(obj) === "function";
+
+/** Used as references for various `Number` constants. */
+const MAX_SAFE_INTEGER = 9007199254740991;
+const MAX_ARRAY_LENGTH = 4294967295;
+
 /**
  * Invokes `func` after `wait` milliseconds. Any additional arguments are
  * provided to `func` when it's invoked.
@@ -16,8 +22,6 @@ export function delay(func, wait, ...args) {
   }
   return setTimeout(func, +wait || 0, ...args);
 }
-
-const isFunc = (obj) => this.getType(obj) === "function";
 
 /**
  * @param {*} func The function to run.
@@ -126,12 +130,6 @@ export function overArgs(func, transforms) {
     return func.apply(this, args);
   };
 }
-
-/** Used as references for various `Number` constants. */
-const MAX_SAFE_INTEGER = 9007199254740991;
-
-/** Used as references for the maximum length and index of an array. */
-const MAX_ARRAY_LENGTH = 4294967295;
 
 /**
  * Invokes the iteratee `n` times, returning an array of the results of
