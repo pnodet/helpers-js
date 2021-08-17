@@ -10,13 +10,16 @@
     "url": "git+https://github.com/pnxdxt/helpers-js.git"
   },
   "type": "module",
-  "exports": "./index.js",
+  "exports": [
+    "./index.js",
+    "./src/*.js"
+  ],
   "engines": {
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
   },
   "files": [
     "index.js",
-    "index.d.ts"
+    "./src/*.js"
   ],
   "author": {
     "name": "Paul Nodet",
