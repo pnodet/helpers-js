@@ -54,13 +54,13 @@ const idCounter = {};
  * _Crypto.uniqueId()
  * // => '105'
  */
-export function uniqueId(prefix = "$lodash$") {
+export function uniqueId(prefix = "$_") {
   if (!idCounter[prefix]) {
     idCounter[prefix] = 0;
   }
 
   const id = ++idCounter[prefix];
-  if (prefix === "$lodash$") {
+  if (prefix === "$_") {
     return `${id}`;
   }
 

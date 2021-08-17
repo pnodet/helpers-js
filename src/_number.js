@@ -9,6 +9,20 @@ export const rarely = () => Number(Math.random > 0.75);
 export const coinFlip = () => Number(Math.random > 0.5);
 
 /**
+ * If n less than `min`, return `min`, else n.
+ * @param {number} n
+ * @param {number} min
+ */
+export const notLessThan = (n, min) => n < min ? min : n;
+
+/**
+ * If n greater than `max`, return `max`, else n.
+ * @param {number} n
+ * @param {number} max
+ */
+export const notGreaterThan = (n, max) => n < max ? n : max;
+
+/**
  * Get a number bewteen two values.
  * @param {number} min
  * @param {number} [max]
@@ -44,15 +58,9 @@ export const between = (delta, a, b) => {
  *
  * _Number.toFinite(3.2)
  * // => 3.2
- *
- * _Number.toFinite(Number.MIN_VALUE)
- * // => 5e-324
- *
+ * 
  * _Number.toFinite(Infinity)
  * // => 1.7976931348623157e+308
- *
- * _Number.toFinite('3.2')
- * // => 3.2
  */
 export function toFinite(value) {
   if (!value) {
@@ -78,14 +86,8 @@ export function toFinite(value) {
  * _Number.toInteger(3.2)
  * // => 3
  *
- * _Number.toInteger(Number.MIN_VALUE)
- * // => 0
- *
  * _Number.toInteger(Infinity)
  * // => 1.7976931348623157e+308
- *
- * _Number.toInteger('3.2')
- * // => 3
  */
 export function toInteger(value) {
   const result = toFinite(value);
@@ -105,14 +107,8 @@ export function toInteger(value) {
  * _Number.toLength(3.2)
  * // => 3
  *
- * _Number.toLength(Number.MIN_VALUE)
- * // => 0
- *
  * _Number.toLength(Infinity)
  * // => 4294967295
- *
- * _Number.toLength('3.2')
- * // => 3
  */
 export function toLength(value) {
   if (!value) {
@@ -138,14 +134,9 @@ export function toLength(value) {
  * _Number.toSafeInteger(3.2)
  * // => 3
  *
- * _Number.toSafeInteger(Number.MIN_VALUE)
- * // => 0
- *
  * _Number.toSafeInteger(Infinity)
  * // => 9007199254740991
  *
- * _Number.toSafeInteger('3.2')
- * // => 3
  */
 export function toSafeInteger(value) {
   if (!value) {

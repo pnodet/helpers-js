@@ -340,3 +340,112 @@ export const toClipboard = (text) => {
   document.body.removeChild(textArea);
   return success;
 };
+
+/**
+ * Detect the scroll top of the window
+ * @link https://stackoverflow.com/questions/871399/cross-browser-method-for-detecting-the-scrolltop-of-the-browser-window
+ */
+export function getScroll() {
+  if (typeof pageYOffset != "undefined") {
+    //most browsers except IE before #9
+    return {
+      top: pageYOffset,
+      left: pageXOffset,
+    };
+  } else {
+    var B = document.body; //IE 'quirks'
+    var D = document.documentElement; //IE with doctype
+    D = D.clientHeight ? D : B;
+    return {
+      top: D.scrollTop,
+      left: D.scrollLeft,
+    };
+  }
+}
+
+/**
+ * @param {HTMLElement} el
+ * @link refer: https://gist.github.com/aderaaij/89547e34617b95ac29d1
+ */
+export function getOffset(el) {
+  const rect = getBoundingClientRect(el);
+  const scroll = getScroll();
+
+  return {
+    x: rect.left + scroll.left,
+    y: rect.top + scroll.top,
+  };
+}
+
+/**
+ * there is some trap in el.offsetParent, so use this func to fix
+ * @param {HTMLElement} el
+ */
+export function getOffsetParent(el) {
+  let offsetParent = el.offsetParent;
+  if (
+    !offsetParent ||
+    (offsetParent === document.body &&
+      getComputedStyle(document.body).position === "static")
+  ) {
+    offsetParent = document.body.parentElement;
+  }
+  return offsetParent;
+}
+
+/**
+ * get el current position.
+ * like jQuery.position.
+ * The position is relative to offsetParent viewport left top.
+ * It is for set absolute position, absolute position is relative to offsetParent viewport left top.
+ * @param {HTMLElement} el
+ */
+export function getPosition(el) {
+  const offsetParent = getOffsetParent(el);
+  const ps = { x: el.offsetLeft, y: el.offsetTop };
+  let parent = el;
+  while (true) {
+    parent = parent.parentElement;
+    if (parent === offsetParent || !parent) {
+      break;
+    }
+    ps.x -= parent.scrollLeft;
+    ps.y -= parent.scrollTop;
+  }
+  return ps;
+}
+
+/**
+ * like jQuery.offset(x, y), but it just return cmputed position, don't update style
+ * @param {HTMLElement} el
+ * @param {{x: number, y: number}} of
+ * @returns {{x: number, y: number}}
+ */
+export function getPositionFromOffset(el, of) {
+  const offsetParent = getOffsetParent(el);
+  const parentOf = getOffset(offsetParent);
+  return {
+    x: of.x - parentOf.x,
+    y: of.y - parentOf.y,
+  };
+}
+
+/**
+ * @link http://www.51xuediannao.com/javascript/getBoundingClientRect.html
+ * @param {HTMLElement} el
+ */
+export function getBoundingClientRect(el) {
+  const xy = el.getBoundingClientRect();
+  const top = xy.top - document.documentElement.clientTop,
+    bottom = xy.bottom,
+    left = xy.left - document.documentElement.clientLeft,
+    right = xy.right,
+    width = xy.width || right - left,
+    height = xy.height || bottom - top;
+  const x = left;
+  const y = top;
+  return { top, right, bottom, left, width, height, x, y };
+}
+
+/** refer [getBoundingClientRect](#getBoundingClientRect) */
+export const getViewportPosition = getBoundingClientRect;
