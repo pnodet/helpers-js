@@ -3,13 +3,13 @@
  * @param {Number} count how many characters to keep
  */
 export const sliceText = (text, count) =>
-  text.slice(0, count) + (text.length > count ? "..." : "");
+  text.slice(0, count) + (text.length > count ? '...' : '');
 
 /**
  * Check if given string is undefined, null, or zero length
  * @param {String} s
  */
-export const isEmpty = (s) => s === undefined || s === null || s === "";
+export const isEmpty = s => s === undefined || s === null || s === '';
 
 /**
  * Find the index of a given string inside another
@@ -46,7 +46,7 @@ export const indexOf = (st, search, fromIndex = 0, ignoreCase = false) => {
  * // => true
  */
 export function startsWith(string, target, position) {
-  const { length } = string;
+  const {length} = string;
   position = position == null ? 0 : position;
   if (position < 0) {
     position = 0;
@@ -76,7 +76,7 @@ export function startsWith(string, target, position) {
  * // => true
  */
 export function endsWith(string, target, position) {
-  const { length } = string;
+  const {length} = string;
   position = position === undefined ? length : +position;
   if (position < 0 || position != position) {
     position = 0;
@@ -105,7 +105,7 @@ export function endsWith(string, target, position) {
  * // => ''
  */
 export function repeat(string, n) {
-  let result = "";
+  let result = '';
   if (!string || n < 1 || n > Number.MAX_SAFE_INTEGER) {
     return result;
   }
@@ -147,7 +147,7 @@ export function replace(...args) {
  * @param {String} value
  * @return {boolean}
  */
-export const isMail = (value) => {
+export const isMail = value => {
   let expression =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return expression.test(String(value).toLowerCase());
@@ -158,7 +158,7 @@ export const isMail = (value) => {
  * @param {String} value
  * @return {boolean}
  */
-export const isUrl = (value) => {
+export const isUrl = value => {
   let expression =
     /^(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/;
   return expression.test(String(value).toLowerCase());
@@ -169,7 +169,7 @@ export const isUrl = (value) => {
  * @param {String} url
  * @return {boolean}
  */
-export const isImageUrl = (url) => {
+export const isImageUrl = url => {
   if (stringType.is(url)) {
     return url.toLowerCase().match(/\.(jpeg|jpg|gif|png)$/) != null;
   } else {
@@ -182,7 +182,7 @@ export const isImageUrl = (url) => {
  * @param {String} value
  * @return {boolean}
  */
-export const isPhone = (value) => {
+export const isPhone = value => {
   let expression = /^(\(?\+\d+\)?[\s.-]?)?\(?\d+\)?[\s.-]?\d+[\s.-]?\d+$/;
   return expression.test(String(value).toLowerCase());
 };
@@ -193,9 +193,9 @@ export const isPhone = (value) => {
  * @returns {String}
  */
 export const random = (length = 10) => {
-  let text = "";
+  let text = '';
   let possible =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   for (let i = 0; i < length; i++) {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   }

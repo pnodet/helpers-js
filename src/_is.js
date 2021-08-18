@@ -1,28 +1,28 @@
 /** Detect free variable `globalThis` */
 const freeGlobalThis =
-  typeof globalThis === "object" &&
+  typeof globalThis === 'object' &&
   globalThis !== null &&
   globalThis.Object == Object &&
   globalThis;
 
 /** Detect free variable `global` from Node.js. */
 const freeGlobal =
-  typeof global === "object" &&
+  typeof global === 'object' &&
   global !== null &&
   global.Object === Object &&
   global;
 
 /** Detect free variable `self`. */
 const freeSelf =
-  typeof self === "object" && self !== null && self.Object === Object && self;
+  typeof self === 'object' && self !== null && self.Object === Object && self;
 
 /** Used as a reference to the global object. */
 const root =
-  freeGlobalThis || freeGlobal || freeSelf || Function("return this")();
+  freeGlobalThis || freeGlobal || freeSelf || Function('return this')();
 
 /** Detect free variable `exports`. */
 const freeExports =
-  typeof exports === "object" &&
+  typeof exports === 'object' &&
   exports !== null &&
   !exports.nodeType &&
   exports;
@@ -30,7 +30,7 @@ const freeExports =
 /** Detect free variable `module`. */
 const freeModule =
   freeExports &&
-  typeof module === "object" &&
+  typeof module === 'object' &&
   module !== null &&
   !module.nodeType &&
   module;
@@ -47,11 +47,11 @@ const nodeTypes = (() => {
     /* Detect public `util.types` helpers for Node.js v10+. */
     /* Node.js deprecation code: DEP0103. */
     const typesHelper =
-      freeModule && freeModule.require && freeModule.require("util").types;
+      freeModule && freeModule.require && freeModule.require('util').types;
     return typesHelper
       ? typesHelper
       : /* Legacy process.binding('util') for Node.js earlier than v10. */
-        freeProcess && freeProcess.binding && freeProcess.binding("util");
+        freeProcess && freeProcess.binding && freeProcess.binding('util');
   } catch (e) {}
 })();
 
@@ -78,16 +78,16 @@ const Buffer = moduleExports ? root.Buffer : undefined;
 const nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined;
 
 /** Gets the `toStringTag` of `value`.*/
-const getTag = (value) =>
+const getTag = value =>
   value == null
     ? value === undefined
-      ? "[object Undefined]"
-      : "[object Null]"
+      ? '[object Undefined]'
+      : '[object Null]'
     : toString.call(value);
 
 /** Checks if `value` is a valid array-like length.*/
-const isLength = (value) =>
-  typeof value === "number" &&
+const isLength = value =>
+  typeof value === 'number' &&
   value > -1 &&
   value % 1 == 0 &&
   value <= MAX_SAFE_INTEGER;
@@ -104,7 +104,7 @@ const isLength = (value) =>
  * _Is.nil(NaN)
  * // => false
  */
-const isNil = (value) => value == null;
+const isNil = value => value == null;
 
 /**
  * Checks if `value` is `null`.
@@ -118,7 +118,7 @@ const isNil = (value) => value == null;
  * _Is.null(void 0)
  * // => false
  */
-const isNull = (value) => value === null;
+const isNull = value => value === null;
 
 /**
  * Checks if `value` is `undefined`.
@@ -132,7 +132,7 @@ const isNull = (value) => value === null;
  * _Is.undefined(null)
  * // => false
  */
-const isUndefined = (value) => value === undefined;
+const isUndefined = value => value === undefined;
 
 /**
  * Checks if `value` is `defined`.
@@ -146,11 +146,11 @@ const isUndefined = (value) => value === undefined;
  * _Is.defined(null)
  * // => false
  */
-const isDefined = (value) => value !== undefined;
+const isDefined = value => value !== undefined;
 
-const isNode = () => typeof window !== "undefined";
-const isThenable = (fn) => fn && isFunction(fn.then);
-const isPromise = (fn) => isThenable(fn) && isFunction(fn.catch);
+const isNode = () => typeof window !== 'undefined';
+const isThenable = fn => fn && isFunction(fn.then);
+const isPromise = fn => isThenable(fn) && isFunction(fn.catch);
 
 /**
  * Checks if `value` is likely a DOM element.
@@ -164,19 +164,19 @@ const isPromise = (fn) => isThenable(fn) && isFunction(fn.catch);
  * _Is.element('<body>')
  * // => false
  */
-const isElement = (value) =>
+const isElement = value =>
   isObjectLike(value) && value.nodeType === 1 && !isPlainObject(value);
 // const isElement = (x) => x instanceof Element;
 
-const isChildren = (x) => isString(x) || isArray(x) || isElement(x);
-const isObserv = (obs) => isFunction(obs) && isFunction(obs.set);
-const isEvent = (ev) => isFunction(ev.listen) && isFunction(ev.broadcast);
-const isBrowser = () => ![typeof window, typeof document].includes("undefined");
+const isChildren = x => isString(x) || isArray(x) || isElement(x);
+const isObserv = obs => isFunction(obs) && isFunction(obs.set);
+const isEvent = ev => isFunction(ev.listen) && isFunction(ev.broadcast);
+const isBrowser = () => ![typeof window, typeof document].includes('undefined');
 
-const isArguments = (value) =>
-  isObjectLike(value) && getTag(value) == "[object Arguments]";
+const isArguments = value =>
+  isObjectLike(value) && getTag(value) == '[object Arguments]';
 
-const isString = (str) => typeof str === "string";
+const isString = str => typeof str === 'string';
 
 /**
  * Checks if `value` is classified as a `Function` object.
@@ -186,11 +186,11 @@ const isString = (str) => typeof str === "string";
  *
  * _Is.function(async () => {})
  * // => true
- * 
+ *
  * _Is.function(/abc/)
  * // => false
  */
-const isFunction = (fn) => typeof fn === "function";
+const isFunction = fn => typeof fn === 'function';
 
 /**
  * Checks if `value` is a buffer.
@@ -208,10 +208,10 @@ const isFunction = (fn) => typeof fn === "function";
 const isBuffer = () => nativeIsBuffer || (() => false);
 
 // const isBoolean = (val) => typeof val === "boolean";
-const isBoolean = (value) => {
+const isBoolean = value => {
   value === true ||
     value === false ||
-    (isObjectLike(value) && getTag(value) == "[object Boolean]");
+    (isObjectLike(value) && getTag(value) == '[object Boolean]');
 };
 
 /**
@@ -228,16 +228,15 @@ const isBoolean = (value) => {
  * _Is.number('3')
  * // => false
  */
-const isNumber = (value) =>
-  typeof value === "number" ||
-  (isObjectLike(value) && getTag(value) == "[object Number]");
+const isNumber = value =>
+  typeof value === 'number' ||
+  (isObjectLike(value) && getTag(value) == '[object Number]');
 // const isNum = (num) => typeof num === "number" && !isNaN(num);
 
-const isFloat = (float) => isNum(float) && Math.floor(float) !== float;
+const isFloat = float => isNum(float) && Math.floor(float) !== float;
 
-const isInteger = (int) =>
+const isInteger = int =>
   Number.isInteger(int) || (isNum(int) && Math.floor(int) === int);
-
 
 /**
  * Checks if `value` is the
@@ -249,13 +248,13 @@ const isInteger = (int) =>
  *
  * _Is.object({})
  * // => true
- * 
+ *
  * _Is.object(null)
  * // => false
  */
-const isObject = (value) =>
-  value != null && (typeof value === "object" || typeof value === "function");
-  //const isObj = (obj) => obj && typeof obj === "object";
+const isObject = value =>
+  value != null && (typeof value === 'object' || typeof value === 'function');
+//const isObj = (obj) => obj && typeof obj === "object";
 
 /**
  * Checks if `value` is object-like. A value is object-like if it's not `null`
@@ -270,9 +269,10 @@ const isObject = (value) =>
  * _Is.objectLike([1, 2, 3])
  * // => true
  */
-const isObjectLike = (value) => typeof value === "object" && value !== null;
+const isObjectLike = value => typeof value === 'object' && value !== null;
 
-const isArray = () => Array.isArray || ((arr) => arr && arr.constructor === Array);
+const isArray = () =>
+  Array.isArray || (arr => arr && arr.constructor === Array);
 
 /**
  * Checks if `value` is array-like. A value is considered array-like if it's
@@ -291,8 +291,8 @@ const isArray = () => Array.isArray || ((arr) => arr && arr.constructor === Arra
  * _Is.arrayLike(Function)
  * // => false
  */
-const isArrayLike = (value) =>
-  value != null && typeof value !== "function" && isLength(value.length);
+const isArrayLike = value =>
+  value != null && typeof value !== 'function' && isLength(value.length);
 // const isArrayLike = (obj) => obj != null && typeof obj[Symbol.iterator] === "function";
 
 /**
@@ -312,7 +312,7 @@ const isArrayLike = (value) =>
  * _Is.arrayLikeObject(Function)
  * // => false
  */
-const isArrayLikeObject = (value) => isObjectLike(value) && isArrayLike(value);
+const isArrayLikeObject = value => isObjectLike(value) && isArrayLike(value);
 
 /**
  * Checks if `value` is classified as a `Map` object.
@@ -327,8 +327,8 @@ const isArrayLikeObject = (value) => isObjectLike(value) && isArrayLike(value);
  * // => false
  */
 const isMap = nodeIsMap
-  ? (value) => nodeIsMap(value)
-  : (value) => isObjectLike(value) && getTag(value) == "[object Map]";
+  ? value => nodeIsMap(value)
+  : value => isObjectLike(value) && getTag(value) == '[object Map]';
 
 /**
  * Checks if `value` is classified as a `WeakMap` object.
@@ -345,8 +345,8 @@ const isMap = nodeIsMap
  * _Is.weakmap(new Map)
  * // => false
  */
-const isWeakMap = (value) =>
-  isObjectLike(value) && getTag(value) == "[object WeakMap]";
+const isWeakMap = value =>
+  isObjectLike(value) && getTag(value) == '[object WeakMap]';
 
 /**
  * Checks if `value` is classified as a `Set` object.
@@ -361,8 +361,8 @@ const isWeakMap = (value) =>
  * // => false
  */
 const isSet = nodeIsSet
-  ? (value) => nodeIsSet(value)
-  : (value) => isObjectLike(value) && getTag(value) == "[object Set]";
+  ? value => nodeIsSet(value)
+  : value => isObjectLike(value) && getTag(value) == '[object Set]';
 
 /**
  * Checks if `value` is classified as a `WeakSet` object.
@@ -376,8 +376,8 @@ const isSet = nodeIsSet
  * _Is.weakset(new Set)
  * // => false
  */
-const isWeakSet = (value) =>
-  isObjectLike(value) && getTag(value) == "[object WeakSet]";
+const isWeakSet = value =>
+  isObjectLike(value) && getTag(value) == '[object WeakSet]';
 
 /**
  * Checks if `value` is classified as a `RegExp` object.
@@ -392,8 +392,8 @@ const isWeakSet = (value) =>
  * // => false
  */
 const isRegExp = nodeIsRegExp
-  ? (value) => nodeIsRegExp(value)
-  : (value) => isObjectLike(value) && getTag(value) == "[object RegExp]";
+  ? value => nodeIsRegExp(value)
+  : value => isObjectLike(value) && getTag(value) == '[object RegExp]';
 
 /**
  * Checks if `value` is classified as a `Symbol` primitive or object.
@@ -407,11 +407,11 @@ const isRegExp = nodeIsRegExp
  * _Is.symbol('abc')
  * // => false
  */
-const isSymbol = (value) => {
+const isSymbol = value => {
   const type = typeof value;
   return (
-    type == "symbol" ||
-    (type === "object" && value != null && getTag(value) == "[object Symbol]")
+    type == 'symbol' ||
+    (type === 'object' && value != null && getTag(value) == '[object Symbol]')
   );
 };
 
@@ -420,9 +420,9 @@ const isSymbol = (value) => {
  * @param {*} value The value to check.
  * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
  */
-const isPrototype = (value) => {
+const isPrototype = value => {
   const Ctor = value && value.constructor;
-  const proto = (typeof Ctor === "function" && Ctor.prototype) || objectProto;
+  const proto = (typeof Ctor === 'function' && Ctor.prototype) || objectProto;
   return value === proto;
 };
 
@@ -439,8 +439,8 @@ const isPrototype = (value) => {
  * // => false
  */
 const isTypedArray = nodeIsTypedArray
-  ? (value) => nodeIsTypedArray(value)
-  : (value) => isObjectLike(value) && reTypedTag.test(getTag(value));
+  ? value => nodeIsTypedArray(value)
+  : value => isObjectLike(value) && reTypedTag.test(getTag(value));
 
 /**
  * Checks if `value` is classified as an `ArrayBuffer` object.
@@ -455,8 +455,8 @@ const isTypedArray = nodeIsTypedArray
  * // => false
  */
 const isArrayBuffer = nodeIsArrayBuffer
-  ? (value) => nodeIsArrayBuffer(value)
-  : (value) => isObjectLike(value) && getTag(value) == "[object ArrayBuffer]";
+  ? value => nodeIsArrayBuffer(value)
+  : value => isObjectLike(value) && getTag(value) == '[object ArrayBuffer]';
 
 /**
  * Checks if `value` is classified as a `Date` object.
@@ -471,8 +471,8 @@ const isArrayBuffer = nodeIsArrayBuffer
  * // => false
  */
 const isDate = nodeIsDate
-  ? (value) => nodeIsDate(value)
-  : (value) => isObjectLike(value) && getTag(value) == "[object Date]";
+  ? value => nodeIsDate(value)
+  : value => isObjectLike(value) && getTag(value) == '[object Date]';
 
 /**
  * Checks if `value` is a plain object, that is, an object created by the
@@ -495,7 +495,7 @@ const isDate = nodeIsDate
  * // => true
  */
 function isPlainObject(value) {
-  if (!isObjectLike(value) || getTag(value) != "[object Object]") {
+  if (!isObjectLike(value) || getTag(value) != '[object Object]') {
     return false;
   }
   if (Object.getPrototypeOf(value) === null) {
@@ -537,8 +537,8 @@ function isEmpty(value) {
   if (
     isArrayLike(value) &&
     (Array.isArray(value) ||
-      typeof value === "string" ||
-      typeof value.splice === "function" ||
+      typeof value === 'string' ||
+      typeof value.splice === 'function' ||
       isBuffer(value) ||
       isTypedArray(value) ||
       isArguments(value))
@@ -546,7 +546,7 @@ function isEmpty(value) {
     return !value.length;
   }
   const tag = getTag(value);
-  if (tag == "[object Map]" || tag == "[object Set]") {
+  if (tag == '[object Map]' || tag == '[object Set]') {
     return !value.size;
   }
   if (isPrototype(value)) {
@@ -579,15 +579,15 @@ function isError(value) {
   }
   const tag = getTag(value);
   return (
-    tag == "[object Error]" ||
-    tag == "[object DOMException]" ||
-    (typeof value.message === "string" &&
-      typeof value.name === "string" &&
+    tag == '[object Error]' ||
+    tag == '[object DOMException]' ||
+    (typeof value.message === 'string' &&
+      typeof value.name === 'string' &&
       !isPlainObject(value))
   );
 }
 
-const isJSON = (str) => {
+const isJSON = str => {
   try {
     JSON.parse(str);
     return true;
@@ -596,11 +596,11 @@ const isJSON = (str) => {
   }
 };
 
-const isPrimitive = (prim) => {
+const isPrimitive = prim => {
   switch (typeof prim) {
-    case "string":
-    case "number":
-    case "boolean":
+    case 'string':
+    case 'number':
+    case 'boolean':
       return true;
     default:
       return false;
@@ -647,10 +647,10 @@ const is = {
   isEmpty,
   isError,
   isJSON,
-  isPrimitive,
+  isPrimitive
 };
 
 // const is = (type, val) => ![, null].includes(val) && val.constructor === type;
-Object.keys(is).forEach((key) => (is[key.slice(2).toLowerCase()] = is[key]));
+Object.keys(is).forEach(key => (is[key.slice(2).toLowerCase()] = is[key]));
 
 export default is;

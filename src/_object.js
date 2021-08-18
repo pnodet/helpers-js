@@ -17,7 +17,7 @@ export const forEachEntry = (object, func) => {
     return;
   }
 
-  Object.entries(object).forEach((p) => func(p[0], p[1]));
+  Object.entries(object).forEach(p => func(p[0], p[1]));
 };
 
 /**
@@ -41,7 +41,7 @@ export function functions(object) {
   if (object == null) {
     return [];
   }
-  return Object.keys(object).filter((key) => typeof object[key] === "function");
+  return Object.keys(object).filter(key => typeof object[key] === 'function');
 }
 
 /**
@@ -78,9 +78,9 @@ export const has = (object, key) =>
  */
 export function invert(object) {
   const result = {};
-  Object.keys(object).forEach((key) => {
+  Object.keys(object).forEach(key => {
     let value = object[key];
-    if (value != null && typeof value.toString !== "function") {
+    if (value != null && typeof value.toString !== 'function') {
       value = toString.call(value);
     }
     result[value] = key;
@@ -106,7 +106,7 @@ export function invert(object) {
  */
 export function invertBy(object, iteratee) {
   const result = {};
-  Object.keys(object).forEach((key) => {
+  Object.keys(object).forEach(key => {
     const value = iteratee(object[key]);
     if (hasOwnProperty.call(result, value)) {
       result[value].push(key);
@@ -164,7 +164,7 @@ export function mapValue(object, iteratee) {
   object = Object(object);
   const result = {};
 
-  Object.keys(object).forEach((key) => {
+  Object.keys(object).forEach(key => {
     result[key] = iteratee(object[key], key, object);
   });
   return result;
@@ -189,7 +189,7 @@ export function mapKey(object, iteratee) {
   object = Object(object);
   const result = {};
 
-  Object.keys(object).forEach((key) => {
+  Object.keys(object).forEach(key => {
     const value = object[key];
     result[iteratee(value, key, object)] = value;
   });

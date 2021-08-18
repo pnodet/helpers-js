@@ -11,7 +11,7 @@ export function cloneDate(dateObj) {
  * @param {Date} dateObj
  * @param {Number} n
  * @param {"year"
- *   | "month" 
+ *   | "month"
  *   | "day"
  *   | "date"
  *   | "hour"
@@ -21,15 +21,15 @@ export function cloneDate(dateObj) {
  * @returns {Date}
  */
 export function addDate(dateObj, n, type) {
-  if (!["year", "month", "day", "date"].includes(type)) {
-    type += "s";
+  if (!['year', 'month', 'day', 'date'].includes(type)) {
+    type += 's';
   }
   let type2 = studlyCase(type);
-  if (type2 === "Day") {
-    type2 = "Date";
+  if (type2 === 'Day') {
+    type2 = 'Date';
   }
-  var setFuncName = "set" + type2;
-  var getFuncName = "get" + type2;
+  var setFuncName = 'set' + type2;
+  var getFuncName = 'get' + type2;
   dateObj[setFuncName](dateObj[getFuncName]() + n);
   return dateObj;
 }
@@ -50,7 +50,7 @@ export function getMonthStart(dateObj) {
  */
 export function getMonthEnd(dateObj) {
   const r = cloneDate(dateObj);
-  addDate(r, 1, "month");
+  addDate(r, 1, 'month');
   r.setDate(0);
   return r;
 }
@@ -65,7 +65,7 @@ export function getMonthEnd(dateObj) {
  *   currentMonth?: boolean,
  *   nextMonth?: boolean,
  * }} getCalendar_Day
- */ 
+ */
 
 /**
  * startWeekDay: 0 is Sunday
@@ -85,7 +85,7 @@ export function getCalendar(year, month, startWeekDay = 0) {
   const calendarStart = addDate(
     cloneDate(monthStart),
     -(monthStartDay + startWeekDay),
-    "day"
+    'day'
   );
   if (monthStartDay > startWeekDay) {
     const startDate = calendarStart.getDate();
@@ -98,7 +98,7 @@ export function getCalendar(year, month, startWeekDay = 0) {
         month,
         date: date,
         text: date,
-        prevMonth: true,
+        prevMonth: true
       });
     }
   }
@@ -112,14 +112,14 @@ export function getCalendar(year, month, startWeekDay = 0) {
       month: month,
       date,
       text: date,
-      currentMonth: true,
+      currentMonth: true
     });
   }
   //
   const monthEndDay = monthEnd.getDay();
   const endWeekDay = 6 - startWeekDay;
   if (monthEndDay < endWeekDay) {
-    const nextMonth = addDate(cloneDate(date), 1, "month");
+    const nextMonth = addDate(cloneDate(date), 1, 'month');
     const year = nextMonth.getFullYear();
     const month = nextMonth.getMonth() + 1;
     for (let i = monthEndDay + 1, date = 1; i <= endWeekDay; i++, date++) {
@@ -128,7 +128,7 @@ export function getCalendar(year, month, startWeekDay = 0) {
         month: month,
         date: date,
         text: date,
-        nextMonth: true,
+        nextMonth: true
       });
     }
   }
@@ -153,17 +153,17 @@ export function isIsoFormat(str) {
  * @returns {Date}
  */
 export function parseISO(timestamp) {
-  const [datePart, timePart] = timestamp.split("T");
+  const [datePart, timePart] = timestamp.split('T');
   let y,
     m,
     d,
     h = 0,
     min = 0,
     s = 0;
-  [y, m, d] = datePart.split("-").map((v) => parseInt(v));
+  [y, m, d] = datePart.split('-').map(v => parseInt(v));
   m = m - 1;
   if (timePart) {
-    const t = timePart.split(":").map((v) => parseFloat(v));
+    const t = timePart.split(':').map(v => parseFloat(v));
     h = t[0];
     if (t[1] != null) {
       min = t[1];

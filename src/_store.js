@@ -35,7 +35,7 @@ export default class _Store {
    */
   setByKey(key, value) {
     if (!key || !value) {
-      console.error("store:", "Key or value not set.");
+      console.error('store:', 'Key or value not set.');
       return;
     }
     this.storage[key] = value;

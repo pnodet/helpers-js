@@ -13,14 +13,14 @@ export const coinFlip = () => Number(Math.random > 0.5);
  * @param {number} n
  * @param {number} min
  */
-export const notLessThan = (n, min) => n < min ? min : n;
+export const notLessThan = (n, min) => (n < min ? min : n);
 
 /**
  * If n greater than `max`, return `max`, else n.
  * @param {number} n
  * @param {number} max
  */
-export const notGreaterThan = (n, max) => n < max ? n : max;
+export const notGreaterThan = (n, max) => (n < max ? n : max);
 
 /**
  * Get a number bewteen two values.
@@ -58,7 +58,7 @@ export const between = (delta, a, b) => {
  *
  * _Number.toFinite(3.2)
  * // => 3.2
- * 
+ *
  * _Number.toFinite(Infinity)
  * // => 1.7976931348623157e+308
  */
@@ -153,9 +153,9 @@ export function toSafeInteger(value) {
 }
 
 /** Number to Base 64 */
-const base = (chars) => {
+const base = chars => {
   const max = chars.length;
-  const baseLoop = (num, res = "") => {
+  const baseLoop = (num, res = '') => {
     const mod = num % max;
     const remaining = Math.floor(num / max);
     const c = chars[mod] + res;
@@ -164,7 +164,7 @@ const base = (chars) => {
   return baseLoop;
 };
 
-const _chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+const _chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
 /** Export Number to Base 64 */
 export const safe64 = base(`${_chars}-_`);
@@ -181,6 +181,6 @@ export const getUUID = () =>
       safe64(getRandomIntInclusive(Math.pow(64, 8))) +
       safe64(getRandomIntInclusive(Math.pow(64, 8)))
   );
-const _pad = "0000000000000000000000000000000";
-const pad = (uuid) =>
+const _pad = '0000000000000000000000000000000';
+const pad = uuid =>
   uuid.length < 32 ? _pad.slice(0, 32 - uuid.length) + uuid : uuid;

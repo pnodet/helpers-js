@@ -1,14 +1,14 @@
-import { STATUS_CODES } from "http";
+import {STATUS_CODES} from 'http';
 
 const error = Object.create(null);
 const boom = Object.create(null);
 
-const ERROR = Symbol("@@ErrorTag");
-const J = Symbol("@@JSONCache");
+const ERROR = Symbol('@@ErrorTag');
+const J = Symbol('@@JSONCache');
 
-const isError = (err) => Boolean(err && err[ERROR]);
+const isError = err => Boolean(err && err[ERROR]);
 
-const safeStringify = (err) => {
+const safeStringify = err => {
   try {
     return (err[J] = JSON.stringify(err));
   } catch (e) {
@@ -16,7 +16,7 @@ const safeStringify = (err) => {
   }
 };
 
-const toJSON = (err) => (err && err[J]) || safeStringify(err);
+const toJSON = err => (err && err[J]) || safeStringify(err);
 
 const buildError = (err, code) => {
   err.code = code;
@@ -30,13 +30,13 @@ const buildError = (err, code) => {
 
 Object.keys(STATUS_CODES)
   .map(Number)
-  .map((code) => {
+  .map(code => {
     const message = STATUS_CODES[code];
-    error[code] = error["_" + code] = buildError(Error(message), code);
+    error[code] = error['_' + code] = buildError(Error(message), code);
     error[code][J] = JSON.stringify(error[code]);
     const handler =
       (boom[code] =
-      boom["_" + code] =
+      boom['_' + code] =
         (err = Error(message)) => {
           if (isError(err)) throw err;
           Error.captureStackTrace(err, handler);
@@ -47,5 +47,5 @@ Object.keys(STATUS_CODES)
   });
 
 // FIXME: !
-Object.assign(error, { boom, isError, toJSON, ERROR });
-export default {error}
+Object.assign(error, {boom, isError, toJSON, ERROR});
+export default {error};

@@ -12,14 +12,14 @@ export const countOccurrences = (arr, val) =>
  * @param  {Array} arr - The array
  * @return {Array}     A new array without false values
  */
-export const compact = (arr) => arr.filter(Boolean);
+export const compact = arr => arr.filter(Boolean);
 
 /**
  * Converts a non-array value into array
  * @param {*} val
  * @return {Array}
  */
-export const cast = (val) => (Array.isArray(val) ? val : [val]);
+export const cast = val => (Array.isArray(val) ? val : [val]);
 
 /**
  * append value into array
@@ -42,8 +42,8 @@ export const prepend = (arr, val) => (arr ? (arr.unshift(val), arr) : [val]);
  * @param {Array} arr
  * @param {String} [delimiter=',']
  */
-export const toCSV = (arr, delimiter = ",") =>
-  arr.map((v) => v.map((x) => `"${x}"`).join(delimiter)).join("\n");
+export const toCSV = (arr, delimiter = ',') =>
+  arr.map(v => v.map(x => `"${x}"`).join(delimiter)).join('\n');
 
 /**
  * Returns true if the predicate function returns true for all elements in a collection and false otherwise
@@ -57,15 +57,14 @@ export const all = (arr, fn) => arr.every(fn);
  * @param {Array} arr
  * @return {Boolean}
  */
-export const allEqual = (arr) => arr.every((val) => val === arr[0]);
+export const allEqual = arr => arr.every(val => val === arr[0]);
 
 /**
  * Return an array of elements that appear in two arrays
  * @param {Array} arr
  * @param {Array} values
  */
-export const similarity = (arr, values) =>
-  arr.filter((v) => values.includes(v));
+export const similarity = (arr, values) => arr.filter(v => values.includes(v));
 
 /**
  * Returns the average of two or more numerical values
@@ -92,8 +91,8 @@ export const flatten = (arr, depth = 1) =>
  * @param  {Array} arr - The array
  * @return {Array}     A new array
  */
-export const deepFlatten = (arr) =>
-  [].concat(...arr.map((v) => (Array.isArray(v) ? deepFlatten(v) : v)));
+export const deepFlatten = arr =>
+  [].concat(...arr.map(v => (Array.isArray(v) ? deepFlatten(v) : v)));
 
 /**
  * Sort array by a category
@@ -109,14 +108,14 @@ export const sortBy = (arr, p) =>
  * @param  {Array} arr - The array
  * @return {Array}     A new array with duplicates removed
  */
-export const unDuplicate = (arr) => Array.from(new Set(arr));
+export const unDuplicate = arr => Array.from(new Set(arr));
 
 /**
  * Pick a random item in an array
  * @param  {Array} arr - The array
  * @returns {*} A randomly selected value
  */
-export const random = (arr) => arr[Math.floor(Math.random() * arr.length)];
+export const random = arr => arr[Math.floor(Math.random() * arr.length)];
 
 /**
  * Remove an item of an array
@@ -138,13 +137,29 @@ export const remove = (arr, elem) => {
  */
 export const toChunks = (arr, limit = 1) => {
   if (limit < 1) {
-    throw new Error("Limit value should be greater than 1");
+    throw new Error('Limit value should be greater than 1');
   }
 
   const out = [];
   for (let i = 0, end = arr.length; i < end; i += limit) {
     out.push(arr.slice(i, i + limit));
   }
+  return out;
+};
+
+/**
+ * Group items by common key and return an object of items grouped by key.
+ * @param {Array} arr - The array
+ * @param fn
+ * @return {{}}
+ */
+export const groupMap = (arr, fn) => {
+  const out = {};
+  arr.forEach(function (item) {
+    const key = fn(item);
+    out[key] = out[key] || {key, items: []};
+    out[key].items.push(item);
+  });
   return out;
 };
 
@@ -157,33 +172,18 @@ export const toChunks = (arr, limit = 1) => {
 export const group = (arr, fn) => Object.values(groupMap(arr, fn));
 
 /**
- * Group items by common key and return an object of items grouped by key.
- * @param {Array} arr - The array
- * @param fn
- * @return {{}}
- */
-export const groupMap = (arr, fn) => {
-  const out = {};
-  arr.forEach(function (item) {
-    const key = fn(item);
-    out[key] = out[key] || { key, items: [] };
-    out[key].items.push(item);
-  });
-  return out;
-};
-
-/**
  * Randomly shuffle an array
  * https://stackoverflow.com/a/2450976/1293256
  * @param  {Array} array - The array to shuffle
  * @return {Array}      The shuffled array
  */
-export const shuffle = (array) => {
+export const shuffle = array => {
   let currentIndex = array.length;
-  let temporaryValue, randomIndex;
+  let temporaryValue;
+  let randomIndex;
 
   // While there remain elements to shuffle...
-  while (0 !== currentIndex) {
+  while (currentIndex !== 0) {
     // Pick a remaining element...
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
@@ -307,12 +307,11 @@ export function sample(array) {
 
 /**
  * Creates a slice of `array` from `start` up to, but not including, `end`.
- * **Note:** This method is used instead of
- * [`Array#slice`](https://mdn.io/Array/slice) to ensure dense arrays are
- * returned.
+ * **Note:** This method is used instead of [`Array#slice`](https://mdn.io/Array/slice)
+ * to ensure dense arrays are returned.
  * @param {Array} array The array to slice.
  * @param {number} [start=0] The start position. A negative index will be treated as an offset from the end.
- * @param {number} [end=array.length] The end position. A negative index will be treated as an offset from the end.
+ * @param {number} [stop=array.length] The end position. A negative index will be treated as an offset from the end.
  * @returns {Array} Returns the slice of `array`.
  * @example
  *
@@ -321,28 +320,28 @@ export function sample(array) {
  * _Array.slice(array, 2)
  * // => [3, 4]
  */
-export function slice(array, start, end) {
+export function slice(array, start, stop) {
   let length = array == null ? 0 : array.length;
   if (!length) {
     return [];
   }
-  start = start == null ? 0 : start;
-  end = end === undefined ? length : end;
+  let position = start == null ? 0 : start;
+  let end = stop === undefined ? length : stop;
 
-  if (start < 0) {
-    start = -start > length ? 0 : length + start;
+  if (position < 0) {
+    position = -position > length ? 0 : length + position;
   }
   end = end > length ? length : end;
   if (end < 0) {
     end += length;
   }
-  length = start > end ? 0 : (end - start) >>> 0;
-  start >>>= 0;
+  length = position > end ? 0 : (end - position) >>> 0;
+  position >>>= 0;
 
   let index = -1;
   const result = new Array(length);
   while (++index < length) {
-    result[index] = array[index + start];
+    result[index] = array[index + position];
   }
   return result;
 }

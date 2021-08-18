@@ -1,4 +1,4 @@
-const isFunc = (obj) => this.getType(obj) === "function";
+const isFunc = obj => this.getType(obj) === 'function';
 
 /** Used as references for various `Number` constants. */
 const MAX_SAFE_INTEGER = 9007199254740991;
@@ -17,8 +17,8 @@ const MAX_ARRAY_LENGTH = 4294967295;
  * // => Logs 'later' after one second.
  */
 export function delay(func, wait, ...args) {
-  if (typeof func !== "function") {
-    throw new TypeError("Expected a function");
+  if (typeof func !== 'function') {
+    throw new TypeError('Expected a function');
   }
   return setTimeout(func, +wait || 0, ...args);
 }
@@ -51,11 +51,11 @@ export function safelyRun(func, ...args) {
  * const debouncedFunction = _Func.debounce(checkPositionAndDoSomething(), 150);
  * window.addEventListener('scroll', debouncedFunction);
  */
-export function debounce(fn, interval, { leading } = {}) {
+export function debounce(fn, interval, {leading} = {}) {
   let timeout;
   let leadExecuted = false;
-  const timer = typeof interval === "number" ? interval : 200;
-  const lead = typeof leading === "boolean" ? leading : false;
+  const timer = typeof interval === 'number' ? interval : 200;
+  const lead = typeof leading === 'boolean' ? leading : false;
   return (...args) => {
     const context = this;
     const postponed = () => {
@@ -91,8 +91,8 @@ export function debounce(fn, interval, { leading } = {}) {
  * // => [1, 3, 5]
  */
 export function negate(predicate) {
-  if (typeof predicate !== "function") {
-    throw new TypeError("Expected a function");
+  if (typeof predicate !== 'function') {
+    throw new TypeError('Expected a function');
   }
   return function (...args) {
     return !predicate.apply(this, args);
@@ -198,7 +198,7 @@ export function waitFor(condition, time = 100, maxTimes = 1000) {
         }
       } else {
         stop();
-        reject(new Error("waitFor: Limit is reached"));
+        reject(new Error('waitFor: Limit is reached'));
       }
       count++;
     }
@@ -207,7 +207,7 @@ export function waitFor(condition, time = 100, maxTimes = 1000) {
     }, time);
     judge();
   });
-  return { promise, stop };
+  return {promise, stop};
   function stop() {
     clearInterval(interval);
   }
@@ -244,9 +244,9 @@ export async function retry(func, limitTimes = 3, ...args) {
  */
 export function mock(time, response, fail = false) {
   let res;
-  const t = typeof time === "number" ? time : 50;
+  const t = typeof time === 'number' ? time : 50;
 
-  if (typeof response !== "function") {
+  if (typeof response !== 'function') {
     const ans = !response ? t : response;
     res = () => ans;
   } else {
@@ -283,9 +283,9 @@ export function mock(time, response, fail = false) {
 export const asyncRetry = async (
   fn,
   maxAttempts,
-  options = { backoff: 2000, backoffPower: 1.25 }
+  options = {backoff: 2000, backoffPower: 1.25}
 ) => {
-  const execute = async (attempt) => {
+  const execute = async attempt => {
     try {
       return await fn();
     } catch (err) {

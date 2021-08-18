@@ -9,7 +9,7 @@ export function executeGetters(getters, concurrent = 1) {
     const chunks = splitArray(getters, concurrent);
     const promises = [];
     for (const chunk of chunks) {
-      const chunkPromises = chunk.map((v) => v());
+      const chunkPromises = chunk.map(v => v());
       promises.push(...chunkPromises);
       await Promise.all(chunkPromises);
       if (stopped) {
@@ -24,7 +24,7 @@ export function executeGetters(getters, concurrent = 1) {
     promise,
     stop() {
       stopped = true;
-    },
+    }
   };
 }
 
@@ -50,8 +50,8 @@ export function Timeout(promise, timeout) {
     );
     t = setTimeout(() => {
       rejected = true;
-      const e = new Error("Promise timeout!");
-      e.name = "timeout";
+      const e = new Error('Promise timeout!');
+      e.name = 'timeout';
       reject(e);
     }, timeout);
   });
@@ -66,8 +66,8 @@ export function Timeout(promise, timeout) {
  * if (err) return errorResponse(err, 'An error occured...');
  * return successResponse(result);
  */
-export const tryC = (promise) =>
-  promise.then((data) => [null, data]).catch((err) => [err]);
+export const tryC = promise =>
+  promise.then(data => [null, data]).catch(err => [err]);
 
 /**
  * Resolves promises in a sequential order
@@ -86,14 +86,14 @@ export function chain(promises) {
   return promises
     .reduce(
       (promiseChain, currentTask) =>
-        promiseChain.then((chainResults) =>
+        promiseChain.then(chainResults =>
           currentTask
-            .then((currentResult) => [...chainResults, currentResult])
-            .catch((e) => {
+            .then(currentResult => [...chainResults, currentResult])
+            .catch(e => {
               throw e;
             })
         ),
       Promise.resolve([])
     )
-    .then((arrayOfResults) => arrayOfResults);
+    .then(arrayOfResults => arrayOfResults);
 }

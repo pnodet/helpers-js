@@ -12,7 +12,7 @@
  * alert( curriedSum(1)(2,3) ); // 6, currying of 1st arg
  * alert( curriedSum(1)(2)(3) ); // 6, full currying
  */
-const curry = (func) =>
+const curry = func =>
   function curried(...args) {
     if (args.length >= func.length) {
       return func.apply(this, args);
@@ -23,4 +23,4 @@ const curry = (func) =>
     }
   };
 
-export default { curry };
+export default {curry};

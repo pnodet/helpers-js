@@ -33,7 +33,7 @@ export const addClass = (el, className) => el.classList.add(className);
  * @param {String} className
  */
 export const addClassAll = (NodeList, className) => {
-  NodeList.forEach((el) => {
+  NodeList.forEach(el => {
     el.classList.add(className);
   });
 };
@@ -51,7 +51,7 @@ export const removeClass = (el, className) => el.classList.remove(className);
  * @param {String} className
  */
 export const removeClassAll = (NodeList, className) => {
-  NodeList.forEach((el) => {
+  NodeList.forEach(el => {
     el.classList.remove(className);
   });
 };
@@ -64,12 +64,12 @@ export const removeClassAll = (NodeList, className) => {
  */
 export const getCurrentMediaQuery = () =>
   getComputedStyle(document.documentElement)
-    .getPropertyValue("--breakpoint")
+    .getPropertyValue('--breakpoint')
     .trim();
 
 /**
  * Returns a metatag content by name
  * @link https://code.area17.com/a17/a17-helpers/wikis/getMetaContentByName
  */
-export const getMetaContentByName = (name) =>
-  document.querySelector("meta[name='" + name + "']").getAttribute("content");
+export const getMetaContentByName = name =>
+  document.querySelector("meta[name='" + name + "']").getAttribute('content');

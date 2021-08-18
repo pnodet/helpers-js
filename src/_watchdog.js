@@ -7,7 +7,7 @@
  * @method cancel clears the timeout.
  * @method reset(timer) re-starts the timer, preventing triggerFcn execution.
  * If timer is provided it's used to set the new timeout
- * 
+ *
  * @example
  * const wd = new _Watchdog(5 * 1000, hidePlayerUI);
  * const postpone = _Func.debounce(wd.reset());
@@ -15,18 +15,18 @@
  * wd.start();
  */
 export default class _Watchdog {
-  constructor(timer, triggerFcn, { once } = {}) {
+  constructor(timer, triggerFcn, {once} = {}) {
     const defaultFcn = () => {
       this.failed = true;
       this.triggerCount += 1;
-      console.log("Watchdog: Trigger function not provided.");
+      console.log('Watchdog: Trigger function not provided.');
     };
     this.failed = false; // used for testing purposes.
     this.triggerCount = 0; // Trigger count.
-    this.timer = typeof timer === "number" ? timer : 100;
-    this.once = typeof once === "boolean" ? once : false;
+    this.timer = typeof timer === 'number' ? timer : 100;
+    this.once = typeof once === 'boolean' ? once : false;
     this.triggerFcn =
-      typeof triggerFcn === "function" ? triggerFcn : defaultFcn;
+      typeof triggerFcn === 'function' ? triggerFcn : defaultFcn;
   }
 
   start(newTimer) {

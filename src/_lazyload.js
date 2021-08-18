@@ -19,14 +19,14 @@
  *   maxFrameCount: 2,
  * });
  */
-const lazyLoad = (opts) => {
+const lazyLoad = opts => {
   let options = {
-    pageUpdatedEventName: "page:updated",
+    pageUpdatedEventName: 'page:updated',
     elements:
-      "img[data-src], img[data-srcset], source[data-srcset], iframe[data-src], video[data-src], [data-lazyload]",
-    rootMargin: "0px",
+      'img[data-src], img[data-srcset], source[data-srcset], iframe[data-src], video[data-src], [data-lazyload]',
+    rootMargin: '0px',
     threshold: 0,
-    maxFrameCount: 10,
+    maxFrameCount: 10
   };
 
   // set up
@@ -59,7 +59,7 @@ const lazyLoad = (opts) => {
    * @returns {Boolean} true/false.
    */
   function _elInViewport(el) {
-    el = el.tagName === "SOURCE" ? el.parentNode : el;
+    el = el.tagName === 'SOURCE' ? el.parentNode : el;
     let rect = el.getBoundingClientRect();
     return (
       rect.bottom > 0 &&
@@ -75,9 +75,9 @@ const lazyLoad = (opts) => {
    * @param {Node} element to update
    */
   function _removeDataAttrs(el) {
-    el.removeAttribute("data-src");
-    el.removeAttribute("data-srcset");
-    el.removeAttribute("data-lazyload");
+    el.removeAttribute('data-src');
+    el.removeAttribute('data-srcset');
+    el.removeAttribute('data-lazyload');
   }
 
   /**
@@ -85,7 +85,7 @@ const lazyLoad = (opts) => {
    * @private
    */
   function _loaded() {
-    this.removeEventListener("load", _loaded);
+    this.removeEventListener('load', _loaded);
     _removeDataAttrs(this);
   }
 
@@ -95,16 +95,16 @@ const lazyLoad = (opts) => {
    * @param {Node} element to update
    */
   function _updateEl(el) {
-    let srcset = el.getAttribute("data-srcset");
-    let src = el.getAttribute("data-src");
-    let dlazyload = el.getAttribute("data-lazyload") !== null;
+    let srcset = el.getAttribute('data-srcset');
+    let src = el.getAttribute('data-src');
+    let dlazyload = el.getAttribute('data-lazyload') !== null;
     //
     if (srcset) {
       // if source set, update and try picturefill
-      el.setAttribute("srcset", srcset);
+      el.setAttribute('srcset', srcset);
       if (window.picturefill) {
         window.picturefill({
-          elements: [el],
+          elements: [el]
         });
       }
     }
@@ -113,8 +113,8 @@ const lazyLoad = (opts) => {
       el.src = src;
     }
     if (dlazyload) {
-      el.setAttribute("data-lazyloaded", "");
-      el.removeEventListener("load", _loaded);
+      el.setAttribute('data-lazyloaded', '');
+      el.removeEventListener('load', _loaded);
       _removeDataAttrs(el);
     }
   }
@@ -137,7 +137,7 @@ const lazyLoad = (opts) => {
         elsLength--;
         // Stop watching this and load the image
         observer.unobserve(entry.target);
-        entry.target.addEventListener("load", _loaded, false);
+        entry.target.addEventListener('load', _loaded, false);
         _updateEl(entry.target);
       }
     }
@@ -150,7 +150,7 @@ const lazyLoad = (opts) => {
   function _setSrcs() {
     let i;
     // browser capability check
-    if (checkType === "really-old") {
+    if (checkType === 'really-old') {
       elsLength = els.length;
       for (i = 0; i < elsLength; i++) {
         if (els[i]) {
@@ -159,7 +159,7 @@ const lazyLoad = (opts) => {
         }
       }
       els = [];
-    } else if (checkType === "old") {
+    } else if (checkType === 'old') {
       // debounce checking
       if (frameCount === options.maxFrameCount) {
         // update cache of this for the loop
@@ -178,7 +178,7 @@ const lazyLoad = (opts) => {
             // give this element a property to stop us running twice on one thing
             thisEl.lazyloaded = true;
             // add an event listener to remove data- attributes on load
-            thisEl.addEventListener("load", _loaded, false);
+            thisEl.addEventListener('load', _loaded, false);
             // update
             _updateEl(thisEl);
           }
@@ -200,10 +200,10 @@ const lazyLoad = (opts) => {
         frameCount++;
         frameLoop = window.requestAnimationFrame(_setSrcs);
       }
-    } else if (checkType === "new") {
+    } else if (checkType === 'new') {
       observer = new IntersectionObserver(_intersection, {
         rootMargin: options.rootMargin,
-        threshold: options.threshold,
+        threshold: options.threshold
       });
       elsLength = els.length;
       for (i = 0; i < elsLength; i++) {
@@ -220,11 +220,11 @@ const lazyLoad = (opts) => {
    */
   function _init() {
     // kill any old loops if there are any
-    if (checkType === "old") {
+    if (checkType === 'old') {
       try {
         cancelAnimationFrame(frameLoop);
       } catch (err) {}
-    } else if (checkType === "new") {
+    } else if (checkType === 'new') {
       try {
         observer.disconnect();
       } catch (err) {}
@@ -249,15 +249,15 @@ const lazyLoad = (opts) => {
       }
     }
     if (
-      !("addEventListener" in window) ||
+      !('addEventListener' in window) ||
       !window.requestAnimationFrame ||
       typeof document.body.getBoundingClientRect === undefined
     ) {
-      checkType = "really-old";
-    } else if ("IntersectionObserver" in window) {
-      checkType = "new";
+      checkType = 'really-old';
+    } else if ('IntersectionObserver' in window) {
+      checkType = 'new';
     } else {
-      checkType = "old";
+      checkType = 'old';
     }
     _init();
     if (options.pageUpdatedEventName) {
@@ -268,4 +268,4 @@ const lazyLoad = (opts) => {
   _lazyLoad();
 };
 
-export default { lazyLoad };
+export default {lazyLoad};

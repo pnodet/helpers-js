@@ -3,7 +3,7 @@
  * fetch('http://example.com')
  *  .then(_Fetch.getResponse)
  */
-export const getResponse = (response) => response.json();
+export const getResponse = response => response.json();
 
 /**
  * @example
@@ -11,7 +11,7 @@ export const getResponse = (response) => response.json();
  *  .then(_Fetch.getResponse)
  *  .then(_Fetch.processJSON);
  */
-export const processJSON = (jsonObject) => console.log(jsonObject);
+export const processJSON = jsonObject => console.log(jsonObject);
 
 /**
  * @example
@@ -20,7 +20,7 @@ export const processJSON = (jsonObject) => console.log(jsonObject);
 export const writeServer = (action, data = {}) => {
   return {
     method: action,
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(data)
   };
 };

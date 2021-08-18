@@ -2,13 +2,14 @@
  * @param {Element} el
  * @returns {boolean} is Web Component ?
  */
-export const isWebComponent = (el) =>
-  el && el.shadowRoot && el.tagName.includes("-");
+export const isWebComponent = el =>
+  el && el.shadowRoot && el.tagName.includes('-');
 
 /**
  * What is user's navigator language ?
  */
-export const getUserLanguage = () => navigator.language || navigator.userLanguage;
+export const getUserLanguage = () =>
+  navigator.language || navigator.userLanguage;
 
 /**
  * @param {Element} el
@@ -48,7 +49,7 @@ export function appendTo(el, target) {
 
 /** Select next child */
 export const nextChild = (pathItem, root) => {
-  const isShadowRoot = pathItem === "shadowRoot" || pathItem === "shadow-root";
+  const isShadowRoot = pathItem === 'shadowRoot' || pathItem === 'shadow-root';
   return isShadowRoot ? root.shadowRoot : root.querySelector(pathItem);
 };
 
@@ -163,12 +164,12 @@ export function onDOMMany(els, names, handler, ...args) {
  * @param {String} url
  */
 export function getImageSizeByUrl(url) {
-  const image = document.createElement("img");
+  const image = document.createElement('img');
   return new Promise(function (resolve, reject) {
-    onDOM(image, "load", () => {
-      resolve({ width: image.width, height: image.height });
+    onDOM(image, 'load', () => {
+      resolve({width: image.width, height: image.height});
     });
-    onDOM(image, "error", (e) => {
+    onDOM(image, 'error', e => {
       reject(e);
     });
     image.src = url;
@@ -179,7 +180,7 @@ export function getImageSizeByUrl(url) {
  * Get attributes of an element as an object with key/value
  * @param {Node} el
  */
-export const getAttributes = (el) => {
+export const getAttributes = el => {
   const result = {};
   const atts = el.attributes;
   if (!atts || atts.length === 0) return result;
@@ -192,17 +193,17 @@ export const getAttributes = (el) => {
 };
 
 /** Create an array of DOM elements from given html */
-export const createElementsArray = (html = "") => {
+export const createElementsArray = (html = '') => {
   html = html.trim();
   if (!html) return [];
 
-  const temp = document.createElement("template");
+  const temp = document.createElement('template');
   temp.innerHTML = html;
   return Array.from(temp.content.childNodes);
 };
 
 /** Create a single DOM element */
-export const createElement = (name, attributes = {}, content = "") => {
+export const createElement = (name, attributes = {}, content = '') => {
   const html = tag(name, attributes, content);
 
   const elements = createElementsArray(html);
@@ -210,18 +211,18 @@ export const createElement = (name, attributes = {}, content = "") => {
   return elements[0];
 };
 
-export const attsToString = (attributes) => {
+export const attsToString = attributes => {
   const array = [];
   forEachEntry(attributes, (k, v) => {
     array.push(`${k}="${v}"`);
   });
-  const sep = array.length > 0 ? " " : "";
-  return sep + array.join(" ");
+  const sep = array.length > 0 ? ' ' : '';
+  return sep + array.join(' ');
 };
 
 /** Create the html for a given tag */
-export const tag = (name, attributes = {}, content = "") => {
-  if (!name) return "";
+export const tag = (name, attributes = {}, content = '') => {
+  if (!name) return '';
   const atts = attsToString(attributes);
   return `<${name}${atts}>${content}</${name}>`;
 };
@@ -232,14 +233,14 @@ export const tag = (name, attributes = {}, content = "") => {
  * @param {String or DomElement} content The new content. Can be a string or another DOM element
  */
 export const setContent = (element, ...content) => {
-  element.innerHTML = "";
+  element.innerHTML = '';
   element.append(...content);
 };
 
 /** Remove elements matching given selector */
 export const removeElements = (selector, root = document) => {
   const elements = all(selector, root);
-  elements.forEach((el) => {
+  elements.forEach(el => {
     el.parentNode.removeChild(el);
   });
 };
@@ -247,7 +248,7 @@ export const removeElements = (selector, root = document) => {
 /** Add/remove a given class if condition is true/false */
 export const classPresentIf = (el, cssClass, condition) => {
   if (!el) return;
-  const func = condition ? "add" : "remove";
+  const func = condition ? 'add' : 'remove';
   el.classList[func](cssClass);
 };
 
@@ -257,10 +258,10 @@ export const classPresentIf = (el, cssClass, condition) => {
  * @param  {String} name  The name of the cookie
  * @return {String}       The cookie value
  */
-export const getCookie = (name) => {
-  let value = "; " + document.cookie;
+export const getCookie = name => {
+  let value = '; ' + document.cookie;
   let parts = value.split(`; ${name}=`);
-  if (parts.length == 2) return parts.pop().split(";").shift();
+  if (parts.length == 2) return parts.pop().split(';').shift();
 };
 
 /**
@@ -269,7 +270,7 @@ export const getCookie = (name) => {
  * @param  {FormData} data The FormData object to serialize
  * @return {String}        The serialized form data
  */
-export const serialize = (data) => {
+export const serialize = data => {
   let obj = {};
   for (let [key, value] of data) {
     if (obj[key] !== undefined) {
@@ -296,30 +297,30 @@ export const serialize = (data) => {
  * const form_data = objectifyForm(form);
  * //=> Object {name: 'Mike', description: 'Interface Engineer', role: 'FE', staff: 'staff'}
  */
-export const objectifyForm = (form) => {
+export const objectifyForm = form => {
   let field;
   let obj = {};
 
-  if (typeof form === "object" && form.nodeName === "FORM") {
+  if (typeof form === 'object' && form.nodeName === 'FORM') {
     let len = form.elements.length;
     for (let i = 0; i < len; i++) {
       field = form.elements[i];
       if (
         field.name &&
         !field.disabled &&
-        field.type !== "file" &&
-        field.type !== "reset" &&
-        field.type !== "submit" &&
-        field.type !== "button"
+        field.type !== 'file' &&
+        field.type !== 'reset' &&
+        field.type !== 'submit' &&
+        field.type !== 'button'
       ) {
-        if (field.type === "select-multiple") {
+        if (field.type === 'select-multiple') {
           for (let j = form.elements[i].options.length - 1; j >= 0; j--) {
             if (field.options[j].selected) {
               obj[field.name] = field.options[j].value;
             }
           }
         } else if (
-          (field.type !== "checkbox" && field.type !== "radio") ||
+          (field.type !== 'checkbox' && field.type !== 'radio') ||
           field.checked
         ) {
           obj[field.name] = field.value;
@@ -334,13 +335,13 @@ const isType = (v, type) =>
   Object.prototype.toString.call(v) === `[object ${type}]`;
 
 /** Check if given argument is of String type */
-const isString = (s) => isType(s, "String");
+const isString = s => isType(s, 'String');
 
 const LOCATIONS = new Set([
-  "beforebegin",
-  "afterbegin",
-  "beforeend",
-  "afterend",
+  'beforebegin',
+  'afterbegin',
+  'beforeend',
+  'afterend'
 ]);
 
 /**
@@ -351,7 +352,7 @@ const LOCATIONS = new Set([
  * beforebegin, afterbegin, beforeend, afterend. The default if ommited is beforeend
  *@returns {boolean} true if added, false if not
  */
-export const add = (target, tobeAdded, location = "beforeend") => {
+export const add = (target, tobeAdded, location = 'beforeend') => {
   location = location.toLowerCase();
   if (!LOCATIONS.has(location)) return false;
 
@@ -383,7 +384,7 @@ export function setCaretPosition(el, start, end) {
 
   if (el.createTextRange) {
     const range = el.createTextRange();
-    range.move("character", end);
+    range.move('character', end);
     range.select();
     return true;
   }
@@ -415,10 +416,10 @@ export { favicon };
  * Element is here a dom tree element (document.getElementById)
  * @param {Node} element
  */
-export const toClipboardFromElement = (element) => {
+export const toClipboardFromElement = element => {
   try {
     element.select();
-    let successful = document.execCommand("copy");
+    let successful = document.execCommand('copy');
     return !!successful;
   } catch (err) {
     return false;
@@ -429,20 +430,20 @@ export const toClipboardFromElement = (element) => {
  * Copies area value to the clipboard.
  * @param {String} text
  */
-export const toClipboard = (text) => {
-  if (typeof window === "undefined") return false;
+export const toClipboard = text => {
+  if (typeof window === 'undefined') return false;
 
-  let textArea = document.createElement("textarea");
-  textArea.style.position = "fixed";
-  textArea.style.top = "0";
-  textArea.style.left = "0";
-  textArea.style.width = "2em";
-  textArea.style.height = "2em";
-  textArea.style.padding = "0";
-  textArea.style.border = "none";
-  textArea.style.outline = "none";
-  textArea.style.boxShadow = "none";
-  textArea.style.background = "transparent";
+  let textArea = document.createElement('textarea');
+  textArea.style.position = 'fixed';
+  textArea.style.top = '0';
+  textArea.style.left = '0';
+  textArea.style.width = '2em';
+  textArea.style.height = '2em';
+  textArea.style.padding = '0';
+  textArea.style.border = 'none';
+  textArea.style.outline = 'none';
+  textArea.style.boxShadow = 'none';
+  textArea.style.background = 'transparent';
 
   textArea.value = text; // set Value
 
@@ -457,11 +458,11 @@ export const toClipboard = (text) => {
  * @link https://stackoverflow.com/questions/871399/cross-browser-method-for-detecting-the-scrolltop-of-the-browser-window
  */
 export function getScroll() {
-  if (typeof pageYOffset != "undefined") {
+  if (typeof pageYOffset != 'undefined') {
     //most browsers except IE before #9
     return {
       top: pageYOffset,
-      left: pageXOffset,
+      left: pageXOffset
     };
   } else {
     var B = document.body; //IE 'quirks'
@@ -469,7 +470,7 @@ export function getScroll() {
     D = D.clientHeight ? D : B;
     return {
       top: D.scrollTop,
-      left: D.scrollLeft,
+      left: D.scrollLeft
     };
   }
 }
@@ -484,7 +485,7 @@ export function getOffset(el) {
 
   return {
     x: rect.left + scroll.left,
-    y: rect.top + scroll.top,
+    y: rect.top + scroll.top
   };
 }
 
@@ -497,7 +498,7 @@ export function getOffsetParent(el) {
   if (
     !offsetParent ||
     (offsetParent === document.body &&
-      getComputedStyle(document.body).position === "static")
+      getComputedStyle(document.body).position === 'static')
   ) {
     offsetParent = document.body.parentElement;
   }
@@ -513,7 +514,7 @@ export function getOffsetParent(el) {
  */
 export function getPosition(el) {
   const offsetParent = getOffsetParent(el);
-  const ps = { x: el.offsetLeft, y: el.offsetTop };
+  const ps = {x: el.offsetLeft, y: el.offsetTop};
   let parent = el;
   while (true) {
     parent = parent.parentElement;
@@ -537,7 +538,7 @@ export function getPositionFromOffset(el, of) {
   const parentOf = getOffset(offsetParent);
   return {
     x: of.x - parentOf.x,
-    y: of.y - parentOf.y,
+    y: of.y - parentOf.y
   };
 }
 
@@ -555,7 +556,7 @@ export function getBoundingClientRect(el) {
     height = xy.height || bottom - top;
   const x = left;
   const y = top;
-  return { top, right, bottom, left, width, height, x, y };
+  return {top, right, bottom, left, width, height, x, y};
 }
 
 /** refer [getBoundingClientRect](#getBoundingClientRect) */
@@ -573,7 +574,7 @@ export const getViewportPosition = getBoundingClientRect;
 /**
  * @param {Store} store
  */
-export const store = { uniqueId: {} };
+export const store = {uniqueId: {}};
 /**
  * get global, such as window in browser.
  * @param {Window} glb
@@ -597,12 +598,12 @@ export function glb() {
 
 export function windowLoaded() {
   return new Promise(function (resolve, reject) {
-    if (document && document.readyState === "complete") {
+    if (document && document.readyState === 'complete') {
       resolve();
     } else {
-      glb().addEventListener("load", function once() {
+      glb().addEventListener('load', function once() {
         resolve();
-        glb().removeEventListener("load", once);
+        glb().removeEventListener('load', once);
       });
     }
   });
@@ -627,7 +628,7 @@ export function makeStorageHelper(storage) {
             value,
             expired_at: minutes
               ? new Date().getTime() + minutes * 60 * 1000
-              : null,
+              : null
           })
         );
       }
@@ -649,7 +650,7 @@ export function makeStorageHelper(storage) {
     },
     clear() {
       this.storage.clear();
-    },
+    }
   };
 }
 

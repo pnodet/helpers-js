@@ -43,16 +43,16 @@ export const getQueryString = (param, url = window.location) => {
  * let params = _Url.queryToObject(url);
  * //=> { param1: 'param1value', param2: 'param2value' }
  */
-export const queryToObject = (url) => {
-  if (typeof url !== "string") {
+export const queryToObject = url => {
+  if (typeof url !== 'string') {
     return {};
   }
 
   let qsObj = {};
   let search =
-    url && url.indexOf("?") > -1 ? url.split("?")[1] : location.search;
+    url && url.indexOf('?') > -1 ? url.split('?')[1] : location.search;
   search.replace(
-    new RegExp("([^?=&]+)(=([^&]*))?", "g"),
+    new RegExp('([^?=&]+)(=([^&]*))?', 'g'),
     function ($0, $1, $2, $3) {
       qsObj[$1] = $3;
     }
@@ -74,22 +74,22 @@ export const queryToObject = (url) => {
  * });
  * //=> returns: ?param1=param1value&param2=param2value
  */
-export const queryFromObject = (obj) => {
-  var queryString = "";
+export const queryFromObject = obj => {
+  var queryString = '';
   var count = 0;
 
   if (Object.getOwnPropertyNames(obj).length > 0) {
-    queryString = "?";
+    queryString = '?';
     for (var key in obj) {
       if (!obj.hasOwnProperty(key)) {
         continue;
       }
       queryString +=
-        (count > 0 ? "&" : "") +
+        (count > 0 ? '&' : '') +
         key +
-        "=" +
+        '=' +
         encodeURIComponent(obj[key]).replace(/[!'()*]/g, function (c) {
-          return "%" + c.charCodeAt(0).toString(16);
+          return '%' + c.charCodeAt(0).toString(16);
         });
       count++;
     }
@@ -112,16 +112,16 @@ export const queryFromObject = (obj) => {
  * //=> returns 'https://example.com?foo=bar&baz=foo'
  */
 export const queryupdateParameter = (url, key, value) => {
-  var re = new RegExp("([?&])" + key + "=.*?(&|#|$)", "i");
+  var re = new RegExp('([?&])' + key + '=.*?(&|#|$)', 'i');
   if (url.match(re)) {
-    return url.replace(re, "$1" + key + "=" + value + "$2");
+    return url.replace(re, '$1' + key + '=' + value + '$2');
   } else {
-    var hash = "";
-    if (url.indexOf("#") !== -1) {
-      hash = url.replace(/.*#/, "#");
-      url = url.replace(/#.*/, "");
+    var hash = '';
+    if (url.indexOf('#') !== -1) {
+      hash = url.replace(/.*#/, '#');
+      url = url.replace(/#.*/, '');
     }
-    var separator = url.indexOf("?") !== -1 ? "&" : "?";
-    return url + separator + key + "=" + value + hash;
+    var separator = url.indexOf('?') !== -1 ? '&' : '?';
+    return url + separator + key + '=' + value + hash;
   }
 };
