@@ -7,7 +7,7 @@
  * _Array.fromEntries([['a', 1], ['b', 2]])
  * // => { 'a': 1, 'b': 2 }
  */
-export function fromEntries(pairs: any[]): any;
+export function fromEntries(pairs: any[]): Object;
 /**
  * Gets the first element of `array`.
  * @param {Array} array The array to query.
