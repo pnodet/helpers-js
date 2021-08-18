@@ -27,7 +27,6 @@ export function delay(func, wait, ...args) {
 /**
  * @param {*} func The function to run.
  * @param {...*} [args] The arguments to invoke `func` with.
- * @returns {boolean} is it safe?
  */
 export function safelyRun(func, ...args) {
   let result = null;
@@ -183,7 +182,7 @@ export function waitTime(milliseconds, callback) {
 }
 
 /**
- * @param {Function} condition The function to try, returns a Boolean.
+ * @param {Function} condition The function to run
  * @param {Number} [time] time.
  * @param {Number} [maxTimes] max times.
  */

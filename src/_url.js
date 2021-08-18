@@ -59,7 +59,7 @@ export const queryToObject = url => {
 };
 
 /**
- * Get the value of a query string from a URL
+ * Get the value of a query string from an object
  * @link https://code.area17.com/a17/a17-helpers/wikis/queryStringHandler-fromObject
  * @param  {{}} obj  The object to get the parameters from
  * @returns {String}  An url returned with the param from the object

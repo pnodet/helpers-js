@@ -15,7 +15,7 @@ export const hasClass = (el, className) => el.classList.contains(className);
 export const toggleClass = (el, className) => el.classList.toggle(className);
 
 /**
- * Get the value of a CSS rule for a particular element
+ * Get the value of a CSS rule for an element
  * @param {HTMLElement} el
  * @param {String} ruleName
  */

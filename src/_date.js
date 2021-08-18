@@ -1,5 +1,6 @@
 /* eslint-disable */
 /**
+ * Returns a new similar Date object
  * @param {Date} dateObj
  * @returns {Date}
  */
@@ -8,7 +9,7 @@ export function cloneDate(dateObj) {
 }
 
 /**
- * day and date is same
+ * Add x to a date and returns a Date object
  * @param {Date} dateObj
  * @param {Number} n
  * @param {"year"

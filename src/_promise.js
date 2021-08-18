@@ -34,7 +34,7 @@ export function executeGetters(getters, concurrent = 1) {
  * @param {Promise} promise
  * @param {Number} timeout
  */
-export function Timeout(promise, timeout) {
+export function timeout(promise, timeout) {
   return new Promise((resolve, reject) => {
     let t;
     let rejected;
