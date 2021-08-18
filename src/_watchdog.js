@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * This class works like a watchdog timer, if it's not reset before timer finishes
  * it'll trigger a triggerFcn().

@@ -7,7 +7,7 @@
   "proseWrap": "always",
   "printWidth": 80,
   "bracketSpacing": false,
-  "trailingComma": "none",
+  "trailingComma": "es5",
   "semi": true,
   "jsxSingleQuote": false,
   "jsxBracketSameLine": false,

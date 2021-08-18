@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * @param {Date} dateObj
  * @returns {Date}
@@ -28,8 +29,8 @@ export function addDate(dateObj, n, type) {
   if (type2 === 'Day') {
     type2 = 'Date';
   }
-  var setFuncName = 'set' + type2;
-  var getFuncName = 'get' + type2;
+  const setFuncName = `set${type2}`;
+  const getFuncName = `get${type2}`;
   dateObj[setFuncName](dateObj[getFuncName]() + n);
   return dateObj;
 }
@@ -96,9 +97,9 @@ export function getCalendar(year, month, startWeekDay = 0) {
       results.push({
         year,
         month,
-        date: date,
+        date,
         text: date,
-        prevMonth: true
+        prevMonth: true,
       });
     }
   }
@@ -108,11 +109,11 @@ export function getCalendar(year, month, startWeekDay = 0) {
   for (let i = 1; i <= monthEndtDate; i++) {
     const date = i;
     results.push({
-      year: year,
-      month: month,
+      year,
+      month,
       date,
       text: date,
-      currentMonth: true
+      currentMonth: true,
     });
   }
   //
@@ -124,11 +125,11 @@ export function getCalendar(year, month, startWeekDay = 0) {
     const month = nextMonth.getMonth() + 1;
     for (let i = monthEndDay + 1, date = 1; i <= endWeekDay; i++, date++) {
       results.push({
-        year: year,
-        month: month,
-        date: date,
+        year,
+        month,
+        date,
         text: date,
-        nextMonth: true
+        nextMonth: true,
       });
     }
   }
@@ -154,14 +155,14 @@ export function isIsoFormat(str) {
  */
 export function parseISO(timestamp) {
   const [datePart, timePart] = timestamp.split('T');
-  let y,
-    m,
-    d,
-    h = 0,
-    min = 0,
-    s = 0;
+  let y;
+  let m;
+  let d;
+  let h = 0;
+  let min = 0;
+  let s = 0;
   [y, m, d] = datePart.split('-').map(v => parseInt(v));
-  m = m - 1;
+  m -= 1;
   if (timePart) {
     const t = timePart.split(':').map(v => parseFloat(v));
     h = t[0];

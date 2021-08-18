@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * makes f(a,b,c) callable as f(a)(b)(c)
  * @param {Function} func
@@ -16,11 +17,10 @@ const curry = func =>
   function curried(...args) {
     if (args.length >= func.length) {
       return func.apply(this, args);
-    } else {
-      return function (...args2) {
-        return curried.apply(this, args.concat(args2));
-      };
     }
+    return function (...args2) {
+      return curried.apply(this, args.concat(args2));
+    };
   };
 
 export default {curry};

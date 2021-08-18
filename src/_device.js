@@ -1,3 +1,4 @@
+/* eslint-disable */
 const isDefined = obj => obj !== undefined;
 
 export const getUserAgent = () =>
@@ -50,10 +51,10 @@ export const getBrowser = async agent => {
     'Konqueror',
     'Mobile',
     'UCBrowser',
-    'UCWEB'
+    'UCWEB',
   ];
   let theBrowser = 'Other';
-  for (let browser of browserList) {
+  for (const browser of browserList) {
     if (agent.match(new RegExp(browser, 'gmi'))) {
       theBrowser = browser;
       break;
@@ -61,17 +62,23 @@ export const getBrowser = async agent => {
   }
   if (theBrowser === 'MSIE' || theBrowser === 'Trident') {
     return 'Internet Explorer';
-  } else if (theBrowser === 'kaios') {
+  }
+  if (theBrowser === 'kaios') {
     return 'Kaios Browser';
-  } else if (theBrowser === 'Opr' || theBrowser === 'opr') {
+  }
+  if (theBrowser === 'Opr' || theBrowser === 'opr') {
     return 'Opera';
-  } else if (theBrowser === 'samsungbrowser') {
+  }
+  if (theBrowser === 'samsungbrowser') {
     return 'Samsung Browser';
-  } else if (theBrowser === 'mobile') {
+  }
+  if (theBrowser === 'mobile') {
     return 'Handheld Browser';
-  } else if (theBrowser === 'UCBrowser' || theBrowser === 'UCWEB') {
+  }
+  if (theBrowser === 'UCBrowser' || theBrowser === 'UCWEB') {
     return 'UC Browser';
-  } else if (theBrowser === 'YaBrowser' || theBrowser === 'Yowser') {
+  }
+  if (theBrowser === 'YaBrowser' || theBrowser === 'Yowser') {
     return 'Yandex Browser';
   }
   return theBrowser;
@@ -107,10 +114,10 @@ export const getOS = async agent => {
     ipod: 'iPod',
     ipad: 'iPad',
     blackberry: 'BlackBerry',
-    'webos|wos': 'Mobile'
+    'webos|wos': 'Mobile',
   };
   let theOs = 'Other';
-  for (let i in osList) {
+  for (const i in osList) {
     if (agent.match(new RegExp(i, 'gmi'))) {
       theOs = osList[i];
       break;
@@ -153,7 +160,7 @@ export const getMobile = async agent => {
     'wos',
     'UCBrowser',
     'UCWEB',
-    'mobi'
+    'mobi',
   ];
   if (agent.match(new RegExp(mobiles.join('|'), 'gmi'))) return 'Mobile';
   return 'Desktop';

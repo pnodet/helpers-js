@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * @example
  * fetch('http://example.com')
@@ -17,10 +18,8 @@ export const processJSON = jsonObject => console.log(jsonObject);
  * @example
  * const response = await fetch('http://example.com', _Fetch.writeServer("POST", newMovie))
  */
-export const writeServer = (action, data = {}) => {
-  return {
-    method: action,
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(data)
-  };
-};
+export const writeServer = (action, data = {}) => ({
+  method: action,
+  headers: {'Content-Type': 'application/json'},
+  body: JSON.stringify(data),
+});

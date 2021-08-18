@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * A A17-helperised version of [lazyload](https://github.com/area17/lazyload)
  * @link https://code.area17.com/a17/a17-helpers/wikis/lazyload
@@ -20,13 +21,13 @@
  * });
  */
 const lazyLoad = opts => {
-  let options = {
+  const options = {
     pageUpdatedEventName: 'page:updated',
     elements:
       'img[data-src], img[data-srcset], source[data-srcset], iframe[data-src], video[data-src], [data-lazyload]',
     rootMargin: '0px',
     threshold: 0,
-    maxFrameCount: 10
+    maxFrameCount: 10,
   };
 
   // set up
@@ -60,7 +61,7 @@ const lazyLoad = opts => {
    */
   function _elInViewport(el) {
     el = el.tagName === 'SOURCE' ? el.parentNode : el;
-    let rect = el.getBoundingClientRect();
+    const rect = el.getBoundingClientRect();
     return (
       rect.bottom > 0 &&
       rect.right > 0 &&
@@ -95,16 +96,16 @@ const lazyLoad = opts => {
    * @param {Node} element to update
    */
   function _updateEl(el) {
-    let srcset = el.getAttribute('data-srcset');
-    let src = el.getAttribute('data-src');
-    let dlazyload = el.getAttribute('data-lazyload') !== null;
+    const srcset = el.getAttribute('data-srcset');
+    const src = el.getAttribute('data-src');
+    const dlazyload = el.getAttribute('data-lazyload') !== null;
     //
     if (srcset) {
       // if source set, update and try picturefill
       el.setAttribute('srcset', srcset);
       if (window.picturefill) {
         window.picturefill({
-          elements: [el]
+          elements: [el],
         });
       }
     }
@@ -131,7 +132,7 @@ const lazyLoad = opts => {
     }
     // Loop through the entries
     for (let i = 0; i < entries.length; i++) {
-      let entry = entries[i];
+      const entry = entries[i];
       // Are we in viewport?
       if (entry.intersectionRatio > 0) {
         elsLength--;
@@ -172,7 +173,7 @@ const lazyLoad = opts => {
             _elInViewport(els[i])
           ) {
             // cache this array item
-            let thisEl = els[i];
+            const thisEl = els[i];
             // set this array item to be undefined to be cleaned up later
             els[i] = undefined;
             // give this element a property to stop us running twice on one thing
@@ -203,7 +204,7 @@ const lazyLoad = opts => {
     } else if (checkType === 'new') {
       observer = new IntersectionObserver(_intersection, {
         rootMargin: options.rootMargin,
-        threshold: options.threshold
+        threshold: options.threshold,
       });
       elsLength = els.length;
       for (i = 0; i < elsLength; i++) {
@@ -243,7 +244,7 @@ const lazyLoad = opts => {
    * @param {object} options (see readme)
    */
   function _lazyLoad() {
-    for (let item in opts) {
+    for (const item in opts) {
       if (opts.hasOwnProperty(item)) {
         options[item] = opts[item];
       }

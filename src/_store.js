@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * Store is a helper method used to share information accross integration tests.
  * If set up as a sinlgeton it can share information across different files.

@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 /**
  * Counts the occurrences of a value in an array
  * @param {Array} arr - The array
@@ -155,7 +157,7 @@ export const toChunks = (arr, limit = 1) => {
  */
 export const groupMap = (arr, fn) => {
   const out = {};
-  arr.forEach(function (item) {
+  arr.forEach(item => {
     const key = fn(item);
     out[key] = out[key] || {key, items: []};
     out[key].items.push(item);

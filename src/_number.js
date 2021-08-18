@@ -1,3 +1,4 @@
+/* eslint-disable */
 /** Used as references for various `Number` constants. */
 const INFINITY = 1 / 0;
 const MAX_INTEGER = 1.7976931348623157e308;

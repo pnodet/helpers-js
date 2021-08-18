@@ -1,11 +1,12 @@
+/* eslint-disable */
 /**
  * Get the URL parameters
  * @param  {String} url The URL
  * @return {Object}     The URL parameters
  */
 export const getParams = (url = window.location) => {
-  let params = {};
-  new URL(url).searchParams.forEach(function (val, key) {
+  const params = {};
+  new URL(url).searchParams.forEach((val, key) => {
     if (params[key] !== undefined) {
       if (!Array.isArray(params[key])) {
         params[key] = [params[key]];
@@ -25,8 +26,8 @@ export const getParams = (url = window.location) => {
  * @return {String}       The value
  */
 export const getQueryString = (param, url = window.location) => {
-  let params = new URL(url).searchParams;
-  let val = params.getAll(param);
+  const params = new URL(url).searchParams;
+  const val = params.getAll(param);
   if (val.length > 1) return val;
   return val[0];
 };
@@ -48,15 +49,12 @@ export const queryToObject = url => {
     return {};
   }
 
-  let qsObj = {};
-  let search =
+  const qsObj = {};
+  const search =
     url && url.indexOf('?') > -1 ? url.split('?')[1] : location.search;
-  search.replace(
-    new RegExp('([^?=&]+)(=([^&]*))?', 'g'),
-    function ($0, $1, $2, $3) {
-      qsObj[$1] = $3;
-    }
-  );
+  search.replace(new RegExp('([^?=&]+)(=([^&]*))?', 'g'), ($0, $1, $2, $3) => {
+    qsObj[$1] = $3;
+  });
   return qsObj;
 };
 
@@ -75,22 +73,18 @@ export const queryToObject = url => {
  * //=> returns: ?param1=param1value&param2=param2value
  */
 export const queryFromObject = obj => {
-  var queryString = '';
-  var count = 0;
+  let queryString = '';
+  let count = 0;
 
   if (Object.getOwnPropertyNames(obj).length > 0) {
     queryString = '?';
-    for (var key in obj) {
+    for (const key in obj) {
       if (!obj.hasOwnProperty(key)) {
         continue;
       }
-      queryString +=
-        (count > 0 ? '&' : '') +
-        key +
-        '=' +
-        encodeURIComponent(obj[key]).replace(/[!'()*]/g, function (c) {
-          return '%' + c.charCodeAt(0).toString(16);
-        });
+      queryString += `${(count > 0 ? '&' : '') + key}=${encodeURIComponent(
+        obj[key]
+      ).replace(/[!'()*]/g, c => `%${c.charCodeAt(0).toString(16)}`)}`;
       count++;
     }
   }
@@ -112,16 +106,15 @@ export const queryFromObject = obj => {
  * //=> returns 'https://example.com?foo=bar&baz=foo'
  */
 export const queryupdateParameter = (url, key, value) => {
-  var re = new RegExp('([?&])' + key + '=.*?(&|#|$)', 'i');
+  const re = new RegExp(`([?&])${key}=.*?(&|#|$)`, 'i');
   if (url.match(re)) {
-    return url.replace(re, '$1' + key + '=' + value + '$2');
-  } else {
-    var hash = '';
-    if (url.indexOf('#') !== -1) {
-      hash = url.replace(/.*#/, '#');
-      url = url.replace(/#.*/, '');
-    }
-    var separator = url.indexOf('?') !== -1 ? '&' : '?';
-    return url + separator + key + '=' + value + hash;
+    return url.replace(re, `$1${key}=${value}$2`);
   }
+  let hash = '';
+  if (url.indexOf('#') !== -1) {
+    hash = url.replace(/.*#/, '#');
+    url = url.replace(/#.*/, '');
+  }
+  const separator = url.indexOf('?') !== -1 ? '&' : '?';
+  return `${url + separator + key}=${value}${hash}`;
 };

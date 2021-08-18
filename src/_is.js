@@ -1,3 +1,4 @@
+/* eslint-disable */
 /** Detect free variable `globalThis` */
 const freeGlobalThis =
   typeof globalThis === 'object' &&
@@ -48,10 +49,10 @@ const nodeTypes = (() => {
     /* Node.js deprecation code: DEP0103. */
     const typesHelper =
       freeModule && freeModule.require && freeModule.require('util').types;
-    return typesHelper
-      ? typesHelper
-      : /* Legacy process.binding('util') for Node.js earlier than v10. */
-        freeProcess && freeProcess.binding && freeProcess.binding('util');
+    return (
+      typesHelper ||
+      (freeProcess && freeProcess.binding && freeProcess.binding('util'))
+    );
   } catch (e) {}
 })();
 
@@ -71,13 +72,13 @@ const nodeIsSet = nodeTypes && nodeTypes.isSet;
 const MAX_SAFE_INTEGER = 9007199254740991;
 
 /** Used for built-in method references. */
-const toString = Object.prototype.toString;
+const {toString} = Object.prototype;
 const objectProto = Object.prototype;
-const hasOwnProperty = Object.prototype.hasOwnProperty;
+const {hasOwnProperty} = Object.prototype;
 const Buffer = moduleExports ? root.Buffer : undefined;
 const nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined;
 
-/** Gets the `toStringTag` of `value`.*/
+/** Gets the `toStringTag` of `value`. */
 const getTag = value =>
   value == null
     ? value === undefined
@@ -85,7 +86,7 @@ const getTag = value =>
       : '[object Null]'
     : toString.call(value);
 
-/** Checks if `value` is a valid array-like length.*/
+/** Checks if `value` is a valid array-like length. */
 const isLength = value =>
   typeof value === 'number' &&
   value > -1 &&
@@ -254,7 +255,7 @@ const isInteger = int =>
  */
 const isObject = value =>
   value != null && (typeof value === 'object' || typeof value === 'function');
-//const isObj = (obj) => obj && typeof obj === "object";
+// const isObj = (obj) => obj && typeof obj === "object";
 
 /**
  * Checks if `value` is object-like. A value is object-like if it's not `null`
@@ -647,7 +648,7 @@ const is = {
   isEmpty,
   isError,
   isJSON,
-  isPrimitive
+  isPrimitive,
 };
 
 // const is = (type, val) => ![, null].includes(val) && val.constructor === type;

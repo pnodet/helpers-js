@@ -1,6 +1,7 @@
+/* eslint-disable */
 /** Used to check objects for own properties. */
-const hasOwnProperty = Object.prototype.hasOwnProperty;
-const toString = Object.prototype.toString;
+const {hasOwnProperty} = Object.prototype;
+const {toString} = Object.prototype;
 
 /**
  * The function will be called with (key, value) as aruments

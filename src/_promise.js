@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * Execute promise in sequence
  * @param {[]} getters
@@ -5,7 +6,7 @@
  */
 export function executeGetters(getters, concurrent = 1) {
   let stopped;
-  const promise = new Promise(async function (resolve, reject) {
+  const promise = new Promise(async (resolve, reject) => {
     const chunks = splitArray(getters, concurrent);
     const promises = [];
     for (const chunk of chunks) {
@@ -24,7 +25,7 @@ export function executeGetters(getters, concurrent = 1) {
     promise,
     stop() {
       stopped = true;
-    }
+    },
   };
 }
 
@@ -35,7 +36,8 @@ export function executeGetters(getters, concurrent = 1) {
  */
 export function Timeout(promise, timeout) {
   return new Promise((resolve, reject) => {
-    let t, rejected;
+    let t;
+    let rejected;
     promise.then(
       (...args) => {
         clearTimeout(t);

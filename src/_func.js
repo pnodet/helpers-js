@@ -1,3 +1,4 @@
+/* eslint-disable */
 const isFunc = obj => this.getType(obj) === 'function';
 
 /** Used as references for various `Number` constants. */
@@ -173,8 +174,8 @@ export const times = (n, iteratee) => {
  * @returns {Promise<Void>}
  */
 export function waitTime(milliseconds, callback) {
-  return new Promise(function (resolve, reject) {
-    setTimeout(function () {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
       callback && callback();
       resolve();
     }, milliseconds);
@@ -188,7 +189,7 @@ export function waitTime(milliseconds, callback) {
  */
 export function waitFor(condition, time = 100, maxTimes = 1000) {
   let interval;
-  const promise = new Promise(function (resolve, reject) {
+  const promise = new Promise((resolve, reject) => {
     let count = 0;
     function judge() {
       if (count <= maxTimes) {
@@ -202,7 +203,7 @@ export function waitFor(condition, time = 100, maxTimes = 1000) {
       }
       count++;
     }
-    interval = setInterval(function () {
+    interval = setInterval(() => {
       judge();
     }, time);
     judge();

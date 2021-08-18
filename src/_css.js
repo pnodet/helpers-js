@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * Checks whether an element has a particular class
  * @param {HTMLElement} el
@@ -72,4 +73,4 @@ export const getCurrentMediaQuery = () =>
  * @link https://code.area17.com/a17/a17-helpers/wikis/getMetaContentByName
  */
 export const getMetaContentByName = name =>
-  document.querySelector("meta[name='" + name + "']").getAttribute('content');
+  document.querySelector(`meta[name='${name}']`).getAttribute('content');

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import {STATUS_CODES} from 'http';
 
 const error = Object.create(null);
@@ -32,11 +33,11 @@ Object.keys(STATUS_CODES)
   .map(Number)
   .map(code => {
     const message = STATUS_CODES[code];
-    error[code] = error['_' + code] = buildError(Error(message), code);
+    error[code] = error[`_${code}`] = buildError(Error(message), code);
     error[code][J] = JSON.stringify(error[code]);
     const handler =
       (boom[code] =
-      boom['_' + code] =
+      boom[`_${code}`] =
         (err = Error(message)) => {
           if (isError(err)) throw err;
           Error.captureStackTrace(err, handler);

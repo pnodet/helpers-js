@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * @param {Element} el
  * @returns {boolean} is Web Component ?
@@ -165,7 +166,7 @@ export function onDOMMany(els, names, handler, ...args) {
  */
 export function getImageSizeByUrl(url) {
   const image = document.createElement('img');
-  return new Promise(function (resolve, reject) {
+  return new Promise((resolve, reject) => {
     onDOM(image, 'load', () => {
       resolve({width: image.width, height: image.height});
     });
@@ -259,8 +260,8 @@ export const classPresentIf = (el, cssClass, condition) => {
  * @return {String}       The cookie value
  */
 export const getCookie = name => {
-  let value = '; ' + document.cookie;
-  let parts = value.split(`; ${name}=`);
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
   if (parts.length == 2) return parts.pop().split(';').shift();
 };
 
@@ -271,8 +272,8 @@ export const getCookie = name => {
  * @return {String}        The serialized form data
  */
 export const serialize = data => {
-  let obj = {};
-  for (let [key, value] of data) {
+  const obj = {};
+  for (const [key, value] of data) {
     if (obj[key] !== undefined) {
       if (!Array.isArray(obj[key])) {
         obj[key] = [obj[key]];
@@ -299,10 +300,10 @@ export const serialize = data => {
  */
 export const objectifyForm = form => {
   let field;
-  let obj = {};
+  const obj = {};
 
   if (typeof form === 'object' && form.nodeName === 'FORM') {
-    let len = form.elements.length;
+    const len = form.elements.length;
     for (let i = 0; i < len; i++) {
       field = form.elements[i];
       if (
@@ -341,7 +342,7 @@ const LOCATIONS = new Set([
   'beforebegin',
   'afterbegin',
   'beforeend',
-  'afterend'
+  'afterend',
 ]);
 
 /**
@@ -419,7 +420,7 @@ export { favicon };
 export const toClipboardFromElement = element => {
   try {
     element.select();
-    let successful = document.execCommand('copy');
+    const successful = document.execCommand('copy');
     return !!successful;
   } catch (err) {
     return false;
@@ -433,7 +434,7 @@ export const toClipboardFromElement = element => {
 export const toClipboard = text => {
   if (typeof window === 'undefined') return false;
 
-  let textArea = document.createElement('textarea');
+  const textArea = document.createElement('textarea');
   textArea.style.position = 'fixed';
   textArea.style.top = '0';
   textArea.style.left = '0';
@@ -448,7 +449,7 @@ export const toClipboard = text => {
   textArea.value = text; // set Value
 
   document.body.appendChild(textArea);
-  let success = toClipboardFromElement(textArea);
+  const success = toClipboardFromElement(textArea);
   document.body.removeChild(textArea);
   return success;
 };
@@ -458,21 +459,20 @@ export const toClipboard = text => {
  * @link https://stackoverflow.com/questions/871399/cross-browser-method-for-detecting-the-scrolltop-of-the-browser-window
  */
 export function getScroll() {
-  if (typeof pageYOffset != 'undefined') {
-    //most browsers except IE before #9
+  if (typeof pageYOffset !== 'undefined') {
+    // most browsers except IE before #9
     return {
       top: pageYOffset,
-      left: pageXOffset
-    };
-  } else {
-    var B = document.body; //IE 'quirks'
-    var D = document.documentElement; //IE with doctype
-    D = D.clientHeight ? D : B;
-    return {
-      top: D.scrollTop,
-      left: D.scrollLeft
+      left: pageXOffset,
     };
   }
+  const B = document.body; // IE 'quirks'
+  let D = document.documentElement; // IE with doctype
+  D = D.clientHeight ? D : B;
+  return {
+    top: D.scrollTop,
+    left: D.scrollLeft,
+  };
 }
 
 /**
@@ -485,7 +485,7 @@ export function getOffset(el) {
 
   return {
     x: rect.left + scroll.left,
-    y: rect.top + scroll.top
+    y: rect.top + scroll.top,
   };
 }
 
@@ -494,7 +494,7 @@ export function getOffset(el) {
  * @param {HTMLElement} el
  */
 export function getOffsetParent(el) {
-  let offsetParent = el.offsetParent;
+  let {offsetParent} = el;
   if (
     !offsetParent ||
     (offsetParent === document.body &&
@@ -538,7 +538,7 @@ export function getPositionFromOffset(el, of) {
   const parentOf = getOffset(offsetParent);
   return {
     x: of.x - parentOf.x,
-    y: of.y - parentOf.y
+    y: of.y - parentOf.y,
   };
 }
 
@@ -548,12 +548,12 @@ export function getPositionFromOffset(el, of) {
  */
 export function getBoundingClientRect(el) {
   const xy = el.getBoundingClientRect();
-  const top = xy.top - document.documentElement.clientTop,
-    bottom = xy.bottom,
-    left = xy.left - document.documentElement.clientLeft,
-    right = xy.right,
-    width = xy.width || right - left,
-    height = xy.height || bottom - top;
+  const top = xy.top - document.documentElement.clientTop;
+  const {bottom} = xy;
+  const left = xy.left - document.documentElement.clientLeft;
+  const {right} = xy;
+  const width = xy.width || right - left;
+  const height = xy.height || bottom - top;
   const x = left;
   const y = top;
   return {top, right, bottom, left, width, height, x, y};
@@ -583,21 +583,20 @@ export function glb() {
   // `this` !== global or window because of build tool. So you can't use `this` to get `global`
   if (store.glb) {
     return store.glb;
-  } else {
-    // resolve global
-    let t;
-    try {
-      t = global;
-    } catch (e) {
-      t = window;
-    }
-    store.glb = t;
-    return t;
   }
+  // resolve global
+  let t;
+  try {
+    t = global;
+  } catch (e) {
+    t = window;
+  }
+  store.glb = t;
+  return t;
 }
 
 export function windowLoaded() {
-  return new Promise(function (resolve, reject) {
+  return new Promise((resolve, reject) => {
     if (document && document.readyState === 'complete') {
       resolve();
     } else {
@@ -611,7 +610,7 @@ export function windowLoaded() {
 
 export function makeStorageHelper(storage) {
   return {
-    storage: storage,
+    storage,
     /**
      * @param {String} name
      * @param {*} value
@@ -628,7 +627,7 @@ export function makeStorageHelper(storage) {
             value,
             expired_at: minutes
               ? new Date().getTime() + minutes * 60 * 1000
-              : null
+              : null,
           })
         );
       }
@@ -642,15 +641,14 @@ export function makeStorageHelper(storage) {
         t = JSON.parse(t);
         if (!t.expired_at || t.expired_at > new Date().getTime()) {
           return t.value;
-        } else {
-          this.storage.removeItem(name);
         }
+        this.storage.removeItem(name);
       }
       return null;
     },
     clear() {
       this.storage.clear();
-    }
+    },
   };
 }
 
