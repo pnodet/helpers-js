@@ -42,34 +42,38 @@ export function safelyRun(func, ...args) {
  * Returns a function that will only run N milliseconds after it stops being called.
  * Or optionally will only run once during multiple calls,
  * and won't run again until N milliseconds after the last call.
- * @link https://code.area17.com/a17/a17-helpers/wikis/debounce
+ * @param {Function} fn
+ * @param {number} [interval] - time in milliseconds to wait until execution.
+ * @param {Object} [options]
+ * @param {boolean} [options.leading]
  *
  * @example
- * clicked = _Func.debounce(function() {
- *   // function to run on first click,
- *   // but won't run again until clicking has stopped for 1000ms
- * }, 1000, true);
- * document.addEventListener('click', clicked);
+ * const debouncedFunction = _Func.debounce(checkPositionAndDoSomething(), 150);
+ * window.addEventListener('scroll', debouncedFunction);
  */
-export const debounce = (func, wait, immediate) => {
+export function debounce(fn, interval, { leading } = {}) {
   let timeout;
-  return function () {
+  let leadExecuted = false;
+  const timer = typeof interval === "number" ? interval : 200;
+  const lead = typeof leading === "boolean" ? leading : false;
+  return (...args) => {
     const context = this;
-    const args = arguments;
-    const later = function () {
+    const postponed = () => {
       timeout = null;
-      if (!immediate) {
-        func.apply(context, args);
+      if (lead) {
+        leadExecuted = false;
+      } else {
+        fn.apply(context, args);
       }
     };
-    const callNow = immediate && !timeout;
     clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-    if (callNow) {
-      func.apply(context, args);
+    timeout = setTimeout(postponed, timer);
+    if (lead && !leadExecuted) {
+      leadExecuted = true;
+      fn.apply(context, args);
     }
   };
-};
+}
 
 /**
  * Creates a function that negates the result of the predicate `func`. The
@@ -225,3 +229,103 @@ export async function retry(func, limitTimes = 3, ...args) {
     }
   }
 }
+
+/**
+ * Mock promise, Useful for testing asynchronous functions.
+ * @param {Number} time
+ * @param {String | Function} response
+ * @param {Boolean} fail
+ *
+ * @example
+ * const expected = 100;
+ * const result = await _Func.mock(100);
+ * expect(result).toEqual(expected);
+ * //=> Successfully resolved promise
+ */
+export function mock(time, response, fail = false) {
+  let res;
+  const t = typeof time === "number" ? time : 50;
+
+  if (typeof response !== "function") {
+    const ans = !response ? t : response;
+    res = () => ans;
+  } else {
+    res = response;
+  }
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (fail) {
+        reject(res());
+      }
+      return resolve(res());
+    }, t);
+  });
+}
+
+/**
+ * asyncRetry is a method that encapsulates a retry logic for an asynchronous request.
+ * Time between retries is defined by a function with customizable parameters for now.
+ * In the future this will be updated in order to provide a custom function.
+ * @param {Function} fn an async function
+ * @param {Number} maxAttempts
+ * @param {Object} [options]
+ * @param {Number} [options.backoff]
+ * @param {Number} [options.backoffPower]
+ *
+ * @example
+ *
+ * try {
+ *   result = await _Func.asyncRetry(fetchData, 3, options);
+ * } catch(e) {
+ *   result = e;
+ * }
+ */
+export const asyncRetry = async (
+  fn,
+  maxAttempts,
+  options = { backoff: 2000, backoffPower: 1.25 }
+) => {
+  const execute = async (attempt) => {
+    try {
+      return await fn();
+    } catch (err) {
+      if (attempt <= maxAttempts) {
+        const nextAttempt = attempt + 1;
+        const delayInSeconds = Math.round(
+          (options.backoff * nextAttempt ** options.backoffPower) / 1000
+        );
+        console.warn(`Retrying after ${delayInSeconds} seconds due to:`, err);
+        return mock(delayInSeconds * 1000, () => execute(nextAttempt));
+      }
+      throw err;
+    }
+  };
+  return execute(1);
+};
+
+/**
+ * mAsyncRequestFactory stands for mock asynchronous request factory.
+ * It returns a function that returns promises upon execution.
+ * If countdownToSuccess is larger than 0 it will throw executing/returning onFailure.
+ * When countdownToSuccess reaches zero it will resolve promise successfully returning onSuccess.
+ *
+ * @param {Number | String | Function} onSuccess - is the value or function returned on success.
+ * @param {Number | String | Function} onFailure - is the value or function returned when promise is rejected.
+ * @param {Number} [countdownToSuccess] - is the amount of promises to reject before succeeding
+ * @param {Number} [waitTime] - Amount of [ms] to wait until resolving or rejecting each promise.
+ */
+export const mockFactory = (
+  onSuccess,
+  onFailure,
+  countdownToSuccess = 0,
+  waitTime = 200
+) => {
+  let reminderTries = countdownToSuccess;
+  return () => {
+    reminderTries -= 1;
+    if (reminderTries + 1 > 0) {
+      return mock(waitTime, onFailure, true);
+    }
+    return mock(waitTime, onSuccess);
+  };
+};
