@@ -7,13 +7,13 @@ const ESLintPlugin = require("eslint-webpack-plugin");
 const serverSide = (env, argv) => {
   // console.log('webpack production config: ', env, argv);
   return {
-    entry: ["./src/index.js"],
-    target: "node", // in order to ignore built-in modules like path, fs, etc.
+    entry: ['./src/index.js'],
+    target: 'node', // in order to ignore built-in modules like path, fs, etc.
     output: {
-      filename: "pnx-helpers.js",
-      path: path.resolve(__dirname, "../lib"),
-      library: "pnx-helpers-js",
-      libraryTarget: "umd",
+      filename: 'bundle.js',
+      path: path.resolve(__dirname, '../lib'),
+      library: 'pnx-helpers-js',
+      libraryTarget: 'umd',
       umdNamedDefine: true,
     },
     externals: [nodeExternals()], // ignore all modules in node_modules folder
@@ -21,25 +21,33 @@ const serverSide = (env, argv) => {
       rules: [
         {
           test: /\.js?$/,
-          enforce: "pre",
-          loader: "prettier-loader",
+          enforce: 'pre',
+          loader: 'prettier-loader',
           options: {
-            parser: "babel",
+            parser: 'babel',
           },
         },
         {
           test: /\.js$/,
           exclude: /node_modules/,
           use: {
-            loader: "babel-loader",
+            loader: 'babel-loader',
           },
         },
+        {
+          test: /\.tsx?$/,
+          use: 'ts-loader',
+          exclude: /node_modules/,
+        },
       ],
+    },
+    resolve: {
+      extensions: ['.tsx', '.ts', '.js'],
     },
     plugins: [
       new ESLintPlugin(),
       new webpack.EnvironmentPlugin({
-        NODE_ENV: "production",
+        NODE_ENV: 'production',
       }),
       new CleanWebpackPlugin(),
       // new CleanWebpackPlugin(['dist'], {

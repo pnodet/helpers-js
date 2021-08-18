@@ -1,0 +1,12 @@
+export function getUserAgent(): string;
+export function isMobile(userAgent?: any): boolean;
+export function isPhone(userAgent?: any): boolean;
+export function isPad(userAgent?: any): boolean;
+export function isAndroid(userAgent?: any): boolean;
+export function isiOS(userAgent?: any): any;
+export function isiPhone(userAgent?: any): boolean;
+export function isiPad(userAgent?: any): boolean;
+export function isiPod(userAgent?: any): boolean;
+export function getBrowser(agent: string): Promise<string>;
+export function getOS(agent: string): Promise<string>;
+export function getMobile(agent: string): Promise<string>;
