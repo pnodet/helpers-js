@@ -1,6 +1,6 @@
 {
   "name": "pnxdxt-helpers-js",
-  "version": "3.6.0",
+  "version": "3.6.1",
   "description": "Small functions help my js life",
   "main": "lib/pnx-helpers.js",
   "scripts": {
