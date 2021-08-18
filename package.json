@@ -32,7 +32,6 @@
   },
   "homepage": "https://github.com/pnxdxt/helpers-js#readme",
   "bundleDependencies": false,
-  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.15.0",
     "@babel/eslint-parser": "^7.15.0",

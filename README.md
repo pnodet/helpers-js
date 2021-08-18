@@ -10,12 +10,23 @@ npm i --save pnxdxt-helpers-js
 
 In order to optimize the size of your code, you can import methods as needed using object destructuring. 
 
-```
-// Load by method
-import { _Crypto } from 'pnxdxt-helpers-js';
+In Node.js:
 
-_Crypto.uniqueId()
-//=> '105'
+```
+// Load entire build
+const _Help = require('pnxdxt-helpers-js');
+// Load by method
+const { _Crypto, _Dom, _Url } = require('pnxdxt-helpers-js');
+```
+
+For web (ES6):
+
+```
+// Load entire build
+import _Help from 'pnxdxt-helpers-js';
+
+// Load by method
+import { _Crypto, _Dom, _Url } from 'pnxdxt-helpers-js';
 
 ```
 
@@ -43,8 +54,8 @@ _Watchdog
 
 List of functions :
 
-all
-allEqual
+all : Returns true if the predicate function returns true for all elements in a collection and false otherwise
+allEqual : Checks whether all elements of the array are equal
 append
 average
 cast
@@ -53,8 +64,8 @@ countOccurrences
 deepFlatten
 flatten
 fromEntries
-group
-groupMap
+group : Group items by common key and return an array of groups.
+groupMap : Group items by common key and return an object of items grouped by key.
 head
 last
 map
@@ -62,7 +73,7 @@ prepend
 random
 remove
 sample
-shuffle
+shuffle : Randomly shuffle an array
 similarity
 slice
 sortBy
