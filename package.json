@@ -4,16 +4,12 @@
   "description": "Small functions help my js life",
   "main": "lib/pnx-helpers.js",
   "scripts": {
-    "build": "webpack --mode production --config ./config/webpack.config.cjs",
+    "build": "webpack --mode production --config ./config/webpack.config.js",
     "lint": "eslint ./src --fix"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/pnxdxt/helpers-js.git"
-  },
-  "type": "module",
-  "engines": {
-    "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
   },
   "files": [
     "/lib"
@@ -36,6 +32,7 @@
   },
   "homepage": "https://github.com/pnxdxt/helpers-js#readme",
   "bundleDependencies": false,
+  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.15.0",
     "@babel/eslint-parser": "^7.15.0",
