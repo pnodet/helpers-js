@@ -2,7 +2,7 @@
   "name": "pnxdxt-helpers-js",
   "version": "4.0.3",
   "description": "Small functions help my js life",
-  "main": "lib/pnx-helpers.js",
+  "main": "lib/bundle.js",
   "scripts": {
     "build": "webpack --mode production --config ./config/webpack.config.js",
     "lint": "eslint ./src --fix"
