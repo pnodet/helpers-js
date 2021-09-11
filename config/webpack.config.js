@@ -3,6 +3,7 @@ const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 const ESLintPlugin = require("eslint-webpack-plugin");
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const serverSide = (env, argv) => {
   // console.log('webpack production config: ', env, argv);
@@ -50,9 +51,10 @@ const serverSide = (env, argv) => {
         NODE_ENV: 'production',
       }),
       new CleanWebpackPlugin(),
-      // new CleanWebpackPlugin(['dist'], {
-      //   root: path.resolve(__dirname, '..'),
-      // })
+      new UglifyJsPlugin({
+        sourceMap: true,
+        include: /\.min\.js$/,
+      }),
     ],
   };
 };

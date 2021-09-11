@@ -40,12 +40,12 @@ export const getRandomIntInclusive = (min, max) => {
 
 /**
  * Is this number between a and b ?
- * @param {number} delta
+ * @param {number} value
  * @param {number} a min
  * @param {number} b max
  * @return {Boolean}
  */
-export const between = (delta, a, b) => {
+export const between = (value, a, b) => {
   const min = Math.min.apply(Math, [a, b]);
   const max = Math.max.apply(Math, [a, b]);
   return delta > min && delta < max;
